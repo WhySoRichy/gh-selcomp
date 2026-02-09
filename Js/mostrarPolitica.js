@@ -63,7 +63,7 @@ function mostrarPolitica() {
                     </p>
                     
                     <p style="text-align: justify; color: #64748b; font-size: 13px; margin-bottom: 0;">
-                        <strong>Contacto:</strong> Para ejercer mis derechos puedo escribir a <strong style="color: #eb0045;">calidad@selcomp.com.co</strong>
+                        <strong>Contacto:</strong> Para ejercer mis derechos puedo escribir al correo de contacto de la empresa.
                     </p>
                     
                 </div>

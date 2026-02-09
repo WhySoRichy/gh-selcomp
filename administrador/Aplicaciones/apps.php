@@ -175,8 +175,8 @@ function abrirAulaVirtual() {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Abrir Aula Virtual en nueva ventana
-            window.open('https://aulavirtual.selcomp.com.co/login/index.php?loginredirect=1', '_blank');
+            // Abrir Aula Virtual en nueva ventana (URL configurable según empresa)
+            window.open('#', '_blank');
 
             Swal.fire({
                 title: 'Cargando...',
