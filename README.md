@@ -361,7 +361,7 @@ pip install groq pymupdf openpyxl
 
 <br>
 
-<sub>Proyecto de código abierto con fines de portafolio profesional</sub>
+<sub>Proyecto de portafolio profesional · Uso no comercial · Ver [LICENSE](LICENSE)</sub>
 
 <br>
 
