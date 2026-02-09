@@ -1,182 +1,183 @@
-# 🏢 Portal de Gestión Humana | HR Management Portal
-
 <div align="center">
 
-![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?style=for-the-badge&logo=php&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Groq AI](https://img.shields.io/badge/Groq_AI-Llama_3.1-FF6B35?style=for-the-badge)
+# Portal de Gestión Humana
 
-**Sistema completo de gestión de recursos humanos con portal de postulaciones, gestión documental, notificaciones y extracción inteligente de CVs con IA.**
+<img src="https://img.shields.io/badge/PHP-8.0+-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP 8+">
+<img src="https://img.shields.io/badge/MySQL-8.0+-4479A1?style=flat-square&logo=mysql&logoColor=white" alt="MySQL 8+">
+<img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript ES6+">
+<img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+">
+<img src="https://img.shields.io/badge/Groq_AI-Llama_3.1-FF6B35?style=flat-square" alt="Groq AI">
 
-[Características](#-características) •
-[Arquitectura](#-arquitectura) •
-[Seguridad](#-seguridad) •
-[Instalación](#-instalación) •
-[API](#-api)
+<br><br>
+
+**Sistema integral de recursos humanos con portal de postulaciones,<br>gestión documental, notificaciones y extracción de CVs con IA**
+
+<br>
+
+[Características](#características) · 
+[Arquitectura](#arquitectura) · 
+[Seguridad](#seguridad) · 
+[Instalación](#instalación) · 
+[Base de Datos](#base-de-datos)
+
+<br>
+
+---
 
 </div>
 
----
+## Descripción General
 
-## 📋 Descripción
+Portal web empresarial desarrollado en **PHP** para la gestión integral del proceso de selección y administración de personal. Permite a candidatos postularse a vacantes, a usuarios gestionar su perfil y documentos, y a administradores manejar todo el ciclo de reclutamiento.
 
-Portal web empresarial desarrollado en PHP para la gestión integral del proceso de selección y administración de personal. El sistema permite a candidatos postularse a vacantes, a usuarios gestionar su perfil y documentos, y a administradores manejar todo el ciclo de reclutamiento.
+### El Problema que Resuelve
 
-### 🎯 Problema que resuelve
+| Desafío | Solución |
+|---------|----------|
+| Procesos de postulación dispersos | Portal centralizado con formularios validados |
+| Documentos confidenciales sin control | Gestión segura con permisos por rol |
+| Extracción manual de datos de CVs | IA automatizada con Llama 3.1 |
+| Accesos sin auditoría | Historial completo con 2FA opcional |
 
-- Centralización del proceso de postulación de candidatos
-- Gestión segura de documentos confidenciales (hojas de vida, certificados, etc.)
-- Automatización de extracción de datos de CVs usando IA
-- Control de acceso robusto con autenticación de dos factores
-- Auditoría completa de accesos al sistema
-
----
-
-## ✨ Características
-
-### 👤 Portal Público
-- ✅ Login con autenticación segura
-- ✅ Formulario de postulación con validación de documentos
-- ✅ Recuperación de contraseña por email
-- ✅ Validación de tipos y formatos de documento de identidad
-
-### 👨‍💼 Panel de Usuario
-- ✅ Dashboard personalizado
-- ✅ Gestión de perfil con avatar
-- ✅ Visualización de vacantes disponibles
-- ✅ Gestión de documentos personales
-- ✅ Centro de notificaciones
-- ✅ Configuración de seguridad y 2FA
-
-### 🛡️ Panel de Administrador
-- ✅ Gestión CRUD de usuarios
-- ✅ Gestión de vacantes (crear, editar, eliminar)
-- ✅ Banco de Hojas de Vida centralizado
-- ✅ Sistema de notificaciones con adjuntos
-- ✅ Historial de accesos global
-- ✅ Configuración de seguridad avanzada
-
-### 🤖 Extractor de CVs con IA
-- ✅ Procesamiento de PDFs con PyMuPDF
-- ✅ Extracción inteligente usando Groq AI (Llama 3.1)
-- ✅ Exportación automática a Excel
-- ✅ Datos extraídos: nombre, educación, experiencia, años de experiencia
+<br>
 
 ---
 
-## 🏗️ Arquitectura
+## Características
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+### Portal Público
+
+- Login con autenticación segura
+- Formulario de postulación validado
+- Recuperación de contraseña por email
+- Validación de documentos de identidad
+
+</td>
+<td width="33%" valign="top">
+
+### Panel de Usuario
+
+- Dashboard personalizado
+- Gestión de perfil con avatar
+- Visualización de vacantes
+- Centro de notificaciones
+- Configuración de 2FA
+
+</td>
+<td width="33%" valign="top">
+
+### Panel Administrativo
+
+- CRUD completo de usuarios
+- Gestión de vacantes
+- Banco de Hojas de Vida
+- Sistema de notificaciones
+- Auditoría de accesos
+
+</td>
+</tr>
+</table>
+
+### Extractor de CVs con Inteligencia Artificial
+
+El sistema incluye un módulo de **procesamiento inteligente de PDFs** que extrae información estructurada de hojas de vida:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        FRONTEND                                  │
-│  ┌──────────────┐  ┌──────────────┐  ┌────────────────────────┐ │
-│  │ Portal Login │  │ Panel Usuario│  │   Panel Administrador  │ │
-│  │  + Postular  │  │  (Dashboard) │  │   (CRUD + Reportes)    │ │
-│  └──────────────┘  └──────────────┘  └────────────────────────┘ │
-│         HTML5 + CSS3 (Montserrat) + JavaScript + SweetAlert2    │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                        BACKEND (PHP 8)                          │
-│  ┌────────────────┐  ┌────────────────┐  ┌──────────────────┐  │
-│  │ Autenticación  │  │  CRUD APIs     │  │  File Management │  │
-│  │ (Session+2FA)  │  │  (PDO MySQL)   │  │  (Upload/View)   │  │
-│  └────────────────┘  └────────────────┘  └──────────────────┘  │
-│                                                                  │
-│  ┌────────────────┐  ┌────────────────┐  ┌──────────────────┐  │
-│  │ CSRF Protection│  │ Brute Force    │  │   PHPMailer      │  │
-│  │ (Token Based)  │  │ Protection     │  │   (SMTP)         │  │
-│  └────────────────┘  └────────────────┘  └──────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    SERVICIOS EXTERNOS                           │
-│  ┌────────────────┐  ┌────────────────┐  ┌──────────────────┐  │
-│  │   MySQL 8.0    │  │   Groq AI API  │  │   SMTP Server    │  │
-│  │   (Database)   │  │  (Llama 3.1)   │  │   (Gmail, etc)   │  │
-│  └────────────────┘  └────────────────┘  └──────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
+CV.pdf → PyMuPDF → Groq AI (Llama 3.1) → Datos estructurados → Excel
 ```
 
-### 📁 Estructura del Proyecto
+**Datos extraídos:** Nombre completo, nivel educativo, años de experiencia, resumen laboral
+
+<br>
+
+---
+
+## Arquitectura
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                           FRONTEND                                   │
+│   Portal Login  ·  Panel Usuario  ·  Panel Administrador            │
+│   HTML5 + CSS3 + JavaScript ES6 + SweetAlert2                        │
+└───────────────────────────────┬─────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         BACKEND (PHP 8)                              │
+│                                                                      │
+│   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                │
+│   │   Auth      │  │   CRUD      │  │   Files     │                │
+│   │   + 2FA     │  │   APIs      │  │   Manager   │                │
+│   └─────────────┘  └─────────────┘  └─────────────┘                │
+│                                                                      │
+│   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                │
+│   │   CSRF      │  │   Brute     │  │   SMTP      │                │
+│   │   Tokens    │  │   Force     │  │   Mailer    │                │
+│   └─────────────┘  └─────────────┘  └─────────────┘                │
+└───────────────────────────────┬─────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                       SERVICIOS EXTERNOS                             │
+│       MySQL 8.0  ·  Groq AI (Llama 3.1)  ·  SMTP Server             │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Estructura del Proyecto
 
 ```
 gh/
-├── 📁 administrador/          # Panel de administración
-│   ├── 📁 Archivos/           # Gestión de banco de HVs
-│   ├── 📁 Usuarios/           # CRUD de usuarios
-│   ├── 📁 Vacantes/           # CRUD de vacantes
-│   ├── 📁 Modulos/            # Componentes reutilizables
-│   ├── auth.php               # Middleware de autenticación admin
-│   ├── csrf_protection.php    # Sistema CSRF
-│   ├── seguridad.php          # Panel de seguridad
-│   └── historial_accesos.php  # Auditoría de accesos
+├── administrador/           # Panel de administración
+│   ├── Archivos/            # Gestión de banco de HVs
+│   ├── Usuarios/            # CRUD de usuarios
+│   ├── Vacantes/            # CRUD de vacantes
+│   ├── auth.php             # Middleware de autenticación
+│   ├── csrf_protection.php  # Sistema CSRF
+│   └── seguridad.php        # Panel de seguridad
 │
-├── 📁 usuario/                # Panel de usuario
-│   ├── 📁 Modulos/            # Navbar y componentes
-│   ├── perfil.php             # Gestión de perfil
-│   ├── documentos.php         # Mis documentos
-│   ├── vacantes.php           # Ver vacantes
-│   ├── notificaciones.php     # Centro de notificaciones
-│   └── seguridad.php          # Configuración 2FA
+├── usuario/                 # Panel de usuario
+│   ├── perfil.php           # Gestión de perfil
+│   ├── documentos.php       # Documentos personales
+│   ├── vacantes.php         # Vacantes disponibles
+│   └── notificaciones.php   # Centro de notificaciones
 │
-├── 📁 conexion/               # Capa de base de datos
-│   └── conexion.php           # PDO connection
+├── conexion/                # Capa de base de datos
+├── seguridad/               # Módulos de protección
+├── notificaciones/          # API REST de notificaciones
+├── Excel/                   # Extractor de CVs con IA
+├── Documentos/              # Almacenamiento de archivos
+├── Css/                     # Estilos por módulo
+├── Js/                      # Scripts del cliente
 │
-├── 📁 seguridad/              # Módulos de seguridad
-│   └── proteccion_fuerza_bruta.php
-│
-├── 📁 notificaciones/         # API REST de notificaciones
-│   ├── api.php                # Endpoints CRUD
-│   └── 📁 js/, 📁 css/
-│
-├── 📁 Excel/                  # Extractor de CVs con IA
-│   ├── extractor_hv.py        # Script principal
-│   └── procesar_hv_async.php  # Trigger desde PHP
-│
-├── 📁 Documentos/             # Almacenamiento de archivos
-│   ├── Postulaciones/         # CVs de candidatos
-│   ├── HojasDeVida/           # HVs de empleados
-│   ├── Certificados/          # Certificados académicos
-│   └── Notificaciones/        # Adjuntos de notificaciones
-│
-├── 📁 Css/                    # Estilos por módulo
-├── 📁 Js/                     # Scripts del cliente
-├── 📁 Img/                    # Assets e imágenes
-│   └── Avatars/               # Fotos de perfil
-│
-├── config.php                 # Configuración central (.env loader)
-├── index.php                  # Login principal
-├── postulacion.php            # Formulario público de postulación
-├── verificar_2fa.php          # Verificación de código 2FA
-├── procesar_login.php         # Lógica de autenticación
-└── vendor/                    # Dependencias (PHPMailer)
+├── config.php               # Configuración central
+├── index.php                # Login principal
+└── postulacion.php          # Formulario de postulación
 ```
+
+<br>
 
 ---
 
-## 🔐 Seguridad
+## Seguridad
 
-El sistema implementa múltiples capas de seguridad siguiendo las mejores prácticas:
+El sistema implementa múltiples capas de seguridad siguiendo estándares de la industria:
 
-| Capa | Implementación | Descripción |
-|------|----------------|-------------|
-| **SQL Injection** | PDO Prepared Statements | Todas las queries usan parámetros bindeados |
-| **XSS** | `htmlspecialchars()` | Escape de toda salida de datos al HTML |
-| **CSRF** | Token-based (30 min TTL) | Tokens en formularios con `hash_equals()` |
-| **Fuerza Bruta** | Bloqueo progresivo | 5 intentos = 15 min de bloqueo por IP+email |
-| **2FA** | Código 6 dígitos por email | Expira en 5 min, máximo 5 intentos |
-| **Session Hijacking** | Regeneración periódica | ID regenerado cada 5 minutos |
+| Protección | Implementación | Detalles |
+|:-----------|:---------------|:---------|
+| **SQL Injection** | PDO Prepared Statements | Queries con parámetros bindeados |
+| **XSS** | `htmlspecialchars()` | Escape de toda salida HTML |
+| **CSRF** | Token-based | Tokens de 30 min con `hash_equals()` |
+| **Fuerza Bruta** | Bloqueo progresivo | 5 intentos → 15 min bloqueo |
+| **2FA** | Código por email | 6 dígitos, expira en 5 min |
+| **Session Hijacking** | Regeneración periódica | ID regenerado cada 5 min |
 | **Session Fixation** | `session_regenerate_id(true)` | En cada login exitoso |
-| **Inactividad** | Timeout automático | 30 min sin actividad = logout |
-| **Headers HTTP** | Security headers | X-Frame-Options, X-XSS-Protection, etc. |
-| **Validación de archivos** | MIME + extensión + tamaño | Doble validación de uploads |
+| **Inactividad** | Timeout automático | 30 min → logout |
 
-### 🛡️ Headers de Seguridad
+### Headers HTTP de Seguridad
 
 ```php
 header("X-Frame-Options: DENY");
@@ -185,64 +186,58 @@ header("X-XSS-Protection: 1; mode=block");
 header("Referrer-Policy: strict-origin-when-cross-origin");
 ```
 
+<br>
+
 ---
 
-## 🚀 Instalación
+## Instalación
 
-### Requisitos
+### Requisitos Previos
 
-- PHP 8.0+
-- MySQL 8.0+
-- Composer
-- Python 3.10+ (para extractor de CVs)
-- Servidor web (Apache/Nginx/IIS)
+| Componente | Versión | Obligatorio |
+|------------|---------|:-----------:|
+| PHP | 8.0+ | ✓ |
+| MySQL | 8.0+ | ✓ |
+| Composer | Latest | ✓ |
+| Python | 3.10+ | Opcional |
+| Apache/Nginx/IIS | - | ✓ |
 
-### Pasos
+### Configuración
 
-1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/tu-usuario/gh-selcomp.git
+# 1. Clonar repositorio
+git clone https://github.com/WhySoRichy/gh-selcomp.git
 cd gh-selcomp
-```
 
-2. **Instalar dependencias PHP**
-```bash
+# 2. Instalar dependencias PHP
 composer install
-```
 
-3. **Configurar variables de entorno**
-```bash
+# 3. Configurar entorno
 cp .env.example .env
-# Editar .env con tus credenciales
-```
+# Editar .env con credenciales
 
-4. **Importar base de datos**
-```bash
+# 4. Importar base de datos
 mysql -u root -p < database/schema.sql
-```
 
-5. **Instalar dependencias Python (opcional, para IA)**
-```bash
+# 5. (Opcional) Dependencias Python para IA
 pip install groq pymupdf openpyxl
 ```
 
-6. **Configurar servidor web**
-   - Apuntar document root a la carpeta del proyecto
-   - Habilitar mod_rewrite (Apache) o equivalente
+<br>
 
 ---
 
-## 📊 Base de Datos
+## Base de Datos
 
-### Tablas principales
+### Tablas Principales
 
-| Tabla | Descripción |
-|-------|-------------|
-| `usuarios` | Usuarios del sistema (empleados y admins) |
-| `vacantes` | Ofertas de trabajo activas |
-| `postulaciones` | Candidatos que aplicaron a vacantes |
+| Tabla | Propósito |
+|-------|-----------|
+| `usuarios` | Empleados y administradores del sistema |
+| `vacantes` | Ofertas de trabajo publicadas |
+| `postulaciones` | Candidatos que aplicaron |
 | `documentos_usuarios` | Archivos subidos por usuarios |
-| `notificaciones` | Sistema de comunicación interna |
+| `notificaciones` | Comunicación interna |
 | `historial_accesos` | Auditoría de login/logout |
 | `codigos_2fa` | Códigos temporales para 2FA |
 | `bloqueos_acceso` | Control de fuerza bruta |
@@ -254,139 +249,122 @@ pip install groq pymupdf openpyxl
 │    usuarios     │       │    vacantes     │       │  postulaciones  │
 ├─────────────────┤       ├─────────────────┤       ├─────────────────┤
 │ id (PK)         │       │ id (PK)         │◄──────│ vacante_id (FK) │
-│ email           │       │ titulo          │       │ id (PK)         │
-│ password_hash   │       │ descripcion     │       │ nombre          │
-│ nombre          │       │ ciudad          │       │ tipo_documento  │
-│ apellido        │       │ fecha_pub       │       │ numero_documento│
-│ cargo           │       └─────────────────┘       │ correo          │
-│ area            │                                 │ archivo         │
-│ rol             │                                 └─────────────────┘
-│ tiene_2fa       │
-└────────┬────────┘
+│ email           │       │ titulo          │       │ nombre          │
+│ password_hash   │       │ descripcion     │       │ tipo_documento  │
+│ nombre          │       │ ciudad          │       │ numero_documento│
+│ rol             │       │ fecha_pub       │       │ correo          │
+│ tiene_2fa       │       └─────────────────┘       │ archivo         │
+└────────┬────────┘                                 └─────────────────┘
          │
-    ┌────┴────┬─────────────┬──────────────┬──────────────┐
-    │         │             │              │              │
-    ▼         ▼             ▼              ▼              ▼
-┌────────┐ ┌────────┐ ┌───────────┐ ┌───────────┐ ┌──────────────┐
-│docs_   │ │historial│ │codigos_  │ │password_ │ │notificaciones│
-│usuarios│ │_accesos │ │2fa       │ │resets    │ │              │
-├────────┤ ├────────┤ ├───────────┤ ├───────────┤ ├──────────────┤
-│usuario │ │usuario │ │usuario_id│ │user_id   │ │autor_id (FK) │
-│_id(FK) │ │_id(FK) │ │(FK)      │ │(FK)      │ │id (PK)       │
-│tipo_doc│ │fecha   │ │codigo    │ │token_hash│ │nombre        │
-│ruta    │ │ip      │ │expira_en │ │expires_at│ │cuerpo        │
-│estado  │ │exito   │ │usado     │ └───────────┘ │destino       │
-└────────┘ └────────┘ └───────────┘              │prioridad     │
-                                                 └──────┬───────┘
-                                                        │
-                    ┌───────────────┬───────────────────┼───────────────┐
-                    │               │                   │               │
-                    ▼               ▼                   ▼               ▼
-            ┌─────────────┐ ┌─────────────┐ ┌─────────────────┐ ┌─────────────┐
-            │notif_       │ │notif_       │ │notif_           │ │bloqueos_   │
-            │usuarios     │ │archivos     │ │respuestas       │ │acceso      │
-            ├─────────────┤ ├─────────────┤ ├─────────────────┤ ├─────────────┤
-            │notif_id(FK) │ │notif_id(FK) │ │notif_id(FK)     │ │ip          │
-            │usuario_id   │ │nombre_arch  │ │usuario_id(FK)   │ │email       │
-            └─────────────┘ │ruta_archivo │ │respuesta        │ │intentos    │
-                            └─────────────┘ └─────────────────┘ │bloqueado   │
-                                                                └─────────────┘
+         ├──► documentos_usuarios
+         ├──► historial_accesos
+         ├──► codigos_2fa
+         ├──► password_resets
+         └──► notificaciones (autor_id)
+                    │
+                    ├──► notif_usuarios
+                    ├──► notif_archivos
+                    └──► notif_respuestas
 ```
+
+<br>
 
 ---
 
-## 🔌 API
-
-### Endpoints de Notificaciones
+## API de Notificaciones
 
 | Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/notificaciones/api.php?accion=listar` | Lista notificaciones |
-| GET | `/notificaciones/api.php?accion=obtener&id=X` | Obtiene una notificación |
-| POST | `/notificaciones/api.php?accion=crear` | Crea notificación (admin) |
-| POST | `/notificaciones/api.php?accion=actualizar` | Actualiza notificación |
-| POST | `/notificaciones/api.php?accion=eliminar` | Elimina notificación |
+|:------:|----------|-------------|
+| `GET` | `/notificaciones/api.php?accion=listar` | Lista notificaciones |
+| `GET` | `/notificaciones/api.php?accion=obtener&id=X` | Obtiene una notificación |
+| `POST` | `/notificaciones/api.php?accion=crear` | Crea notificación |
+| `POST` | `/notificaciones/api.php?accion=actualizar` | Actualiza notificación |
+| `POST` | `/notificaciones/api.php?accion=eliminar` | Elimina notificación |
 
-### Autenticación de API
+> Todas las llamadas requieren sesión activa y token CSRF para métodos POST.
 
-Todas las llamadas requieren:
-- Sesión activa (`$_SESSION['usuario_id']`)
-- Token CSRF en header o body para POST
+<br>
 
 ---
 
-## 🤖 Extractor de CVs con IA
+## Stack Tecnológico
 
-El sistema incluye un extractor inteligente que procesa hojas de vida en PDF y extrae información estructurada usando Groq AI (Llama 3.1).
+<table>
+<tr>
+<td align="center" width="20%">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" width="40">
+<br><strong>PHP 8</strong>
+<br><sub>Backend</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="40">
+<br><strong>MySQL</strong>
+<br><sub>Base de Datos</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="40">
+<br><strong>JavaScript</strong>
+<br><sub>Frontend</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="40">
+<br><strong>Python</strong>
+<br><sub>IA/ML</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="40">
+<br><strong>CSS3</strong>
+<br><sub>Estilos</sub>
+</td>
+</tr>
+</table>
 
-### Uso
+**Librerías:** PHPMailer · SweetAlert2 · Font Awesome · PyMuPDF · OpenPyXL
 
-```python
-python Excel/extractor_hv.py ruta/al/cv.pdf
-```
-
-### Datos extraídos
-
-- Nombres y apellidos
-- Nivel educativo
-- Años de experiencia
-- Resumen de experiencia laboral
-
-### Output
-
-Los datos se exportan automáticamente a `Documentos/Recursos/Prospectos.xlsx`
-
----
-
-## 📈 Estadísticas del Proyecto
-
-| Métrica | Valor |
-|---------|-------|
-| **Líneas de código** | ~33,000 |
-| **Archivos PHP** | 60+ |
-| **Archivos CSS** | 20+ |
-| **Archivos JS** | 6 |
-| **Tablas de BD** | 10+ |
-
----
-
-## 🛠️ Tecnologías Utilizadas
-
-- **Backend:** PHP 8, PDO, MySQL
-- **Frontend:** HTML5, CSS3, JavaScript ES6
-- **UI Libraries:** SweetAlert2, Font Awesome, Animate.css
-- **Email:** PHPMailer (SMTP)
-- **IA:** Python, Groq API, Llama 3.1
-- **PDF Processing:** PyMuPDF (fitz)
-- **Excel:** OpenPyXL
+<br>
 
 ---
 
-## 👨‍💻 Autor
+## Métricas del Proyecto
 
 <div align="center">
 
-**Ricardo Hernández**  
-*Desarrollador Web Full Stack*
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://co.linkedin.com/in/ricardoit)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/WhySoRichy)
+| Líneas de Código | Archivos PHP | Archivos CSS | Tablas BD |
+|:----------------:|:------------:|:------------:|:---------:|
+| **~33,000** | **60+** | **20+** | **14** |
 
 </div>
 
----
-
-## 📄 Licencia
-
-Este proyecto es de código abierto con fines de portafolio profesional.  
-Libre para revisar, estudiar y referenciar.
+<br>
 
 ---
 
 <div align="center">
 
-**⭐ Si te gusta este proyecto, no olvides dejar una estrella ⭐**
+## Autor
 
-*Gracias por visitar mi portafolio*
+<br>
+
+**Ricardo Hernández**
+
+*Desarrollador Web Full Stack*
+
+<br>
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://co.linkedin.com/in/ricardoit)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/WhySoRichy)
+[![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:richygg2003@gmail.com)
+
+<br>
+
+---
+
+<br>
+
+<sub>Proyecto de código abierto con fines de portafolio profesional</sub>
+
+<br>
+
+<img src="https://img.shields.io/github/stars/WhySoRichy/gh-selcomp?style=social" alt="GitHub Stars">
 
 </div>
