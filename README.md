@@ -1,32 +1,32 @@
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:404e62,100:eb0045&height=180&section=header&text=Portal%20de%20Gestión%20Humana&fontSize=36&fontColor=ffffff&animation=fadeIn&fontAlignY=35"/>
+
 <div align="center">
 
-# Portal de Gestión Humana
-
-<img src="https://img.shields.io/badge/PHP-8.0+-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP 8+">
-<img src="https://img.shields.io/badge/MySQL-8.0+-4479A1?style=flat-square&logo=mysql&logoColor=white" alt="MySQL 8+">
-<img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript ES6+">
-<img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+">
-<img src="https://img.shields.io/badge/Groq_AI-Llama_3.1-FF6B35?style=flat-square" alt="Groq AI">
+<a href="https://github.com/WhySoRichy/gh-selcomp">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=22&pause=1000&color=EB0045&center=true&vCenter=true&random=false&width=600&lines=Sistema+de+Recursos+Humanos;Gesti%C3%B3n+Documental+Segura;Extracci%C3%B3n+de+CVs+con+IA;Desarrollado+en+PHP+%2B+MySQL" alt="Typing SVG" />
+</a>
 
 <br><br>
 
-**Sistema integral de recursos humanos con portal de postulaciones,<br>gestión documental, notificaciones y extracción de CVs con IA**
+<img src="https://img.shields.io/badge/PHP-8.0+-eb0045?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8+">
+<img src="https://img.shields.io/badge/MySQL-8.0+-404e62?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL 8+">
+<img src="https://img.shields.io/badge/JavaScript-ES6+-eb0045?style=for-the-badge&logo=javascript&logoColor=white" alt="JavaScript ES6+">
+<img src="https://img.shields.io/badge/Python-3.10+-404e62?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.10+">
+<img src="https://img.shields.io/badge/Groq_AI-Llama_3.1-eb0045?style=for-the-badge" alt="Groq AI">
 
-<br>
+<br><br>
 
-[Características](#características) · 
-[Arquitectura](#arquitectura) · 
-[Seguridad](#seguridad) · 
-[Instalación](#instalación) · 
-[Base de Datos](#base-de-datos)
-
-<br>
-
----
+[Características](#-características) · 
+[Arquitectura](#-arquitectura) · 
+[Seguridad](#-seguridad) · 
+[Instalación](#-instalación) · 
+[Base de Datos](#-base-de-datos)
 
 </div>
 
-## Descripción General
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+## 📋 Descripción General
 
 Portal web empresarial desarrollado en **PHP** para la gestión integral del proceso de selección y administración de personal. Permite a candidatos postularse a vacantes, a usuarios gestionar su perfil y documentos, y a administradores manejar todo el ciclo de reclutamiento.
 
@@ -39,17 +39,15 @@ Portal web empresarial desarrollado en **PHP** para la gestión integral del pro
 | Extracción manual de datos de CVs | IA automatizada con Llama 3.1 |
 | Accesos sin auditoría | Historial completo con 2FA opcional |
 
-<br>
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
----
-
-## Características
+## ⚡ Características
 
 <table>
 <tr>
 <td width="33%" valign="top">
 
-### Portal Público
+### 🌐 Portal Público
 
 - Login con autenticación segura
 - Formulario de postulación validado
@@ -59,7 +57,7 @@ Portal web empresarial desarrollado en **PHP** para la gestión integral del pro
 </td>
 <td width="33%" valign="top">
 
-### Panel de Usuario
+### 👤 Panel de Usuario
 
 - Dashboard personalizado
 - Gestión de perfil con avatar
@@ -70,7 +68,7 @@ Portal web empresarial desarrollado en **PHP** para la gestión integral del pro
 </td>
 <td width="33%" valign="top">
 
-### Panel Administrativo
+### 🛡️ Panel Administrativo
 
 - CRUD completo de usuarios
 - Gestión de vacantes
@@ -82,7 +80,7 @@ Portal web empresarial desarrollado en **PHP** para la gestión integral del pro
 </tr>
 </table>
 
-### Extractor de CVs con Inteligencia Artificial
+### 🤖 Extractor de CVs con Inteligencia Artificial
 
 El sistema incluye un módulo de **procesamiento inteligente de PDFs** que extrae información estructurada de hojas de vida:
 
@@ -92,11 +90,9 @@ CV.pdf → PyMuPDF → Groq AI (Llama 3.1) → Datos estructurados → Excel
 
 **Datos extraídos:** Nombre completo, nivel educativo, años de experiencia, resumen laboral
 
-<br>
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
----
-
-## Arquitectura
+## 🏗️ Arquitectura
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -127,7 +123,8 @@ CV.pdf → PyMuPDF → Groq AI (Llama 3.1) → Datos estructurados → Excel
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### Estructura del Proyecto
+<details>
+<summary><b>📁 Ver Estructura del Proyecto</b></summary>
 
 ```
 gh/
@@ -158,11 +155,11 @@ gh/
 └── postulacion.php          # Formulario de postulación
 ```
 
-<br>
+</details>
 
----
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-## Seguridad
+## 🔐 Seguridad
 
 El sistema implementa múltiples capas de seguridad siguiendo estándares de la industria:
 
@@ -177,7 +174,8 @@ El sistema implementa múltiples capas de seguridad siguiendo estándares de la 
 | **Session Fixation** | `session_regenerate_id(true)` | En cada login exitoso |
 | **Inactividad** | Timeout automático | 30 min → logout |
 
-### Headers HTTP de Seguridad
+<details>
+<summary><b>🛡️ Ver Headers HTTP de Seguridad</b></summary>
 
 ```php
 header("X-Frame-Options: DENY");
@@ -186,11 +184,11 @@ header("X-XSS-Protection: 1; mode=block");
 header("Referrer-Policy: strict-origin-when-cross-origin");
 ```
 
-<br>
+</details>
 
----
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-## Instalación
+## 🚀 Instalación
 
 ### Requisitos Previos
 
@@ -223,11 +221,9 @@ mysql -u root -p < database/schema.sql
 pip install groq pymupdf openpyxl
 ```
 
-<br>
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
----
-
-## Base de Datos
+## 💾 Base de Datos
 
 ### Tablas Principales
 
@@ -242,7 +238,8 @@ pip install groq pymupdf openpyxl
 | `codigos_2fa` | Códigos temporales para 2FA |
 | `bloqueos_acceso` | Control de fuerza bruta |
 
-### Diagrama Entidad-Relación
+<details>
+<summary><b>📊 Ver Diagrama Entidad-Relación</b></summary>
 
 ```
 ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
@@ -267,11 +264,11 @@ pip install groq pymupdf openpyxl
                     └──► notif_respuestas
 ```
 
-<br>
+</details>
 
----
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-## API de Notificaciones
+## 🔌 API de Notificaciones
 
 | Método | Endpoint | Descripción |
 |:------:|----------|-------------|
@@ -283,36 +280,36 @@ pip install groq pymupdf openpyxl
 
 > Todas las llamadas requieren sesión activa y token CSRF para métodos POST.
 
-<br>
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
----
+## 🛠️ Stack Tecnológico
 
-## Stack Tecnológico
+<div align="center">
 
 <table>
 <tr>
 <td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" width="40">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" width="45">
 <br><strong>PHP 8</strong>
 <br><sub>Backend</sub>
 </td>
 <td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="40">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="45">
 <br><strong>MySQL</strong>
 <br><sub>Base de Datos</sub>
 </td>
 <td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="40">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="45">
 <br><strong>JavaScript</strong>
 <br><sub>Frontend</sub>
 </td>
 <td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="40">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="45">
 <br><strong>Python</strong>
 <br><sub>IA/ML</sub>
 </td>
 <td align="center" width="20%">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="40">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="45">
 <br><strong>CSS3</strong>
 <br><sub>Estilos</sub>
 </td>
@@ -321,11 +318,11 @@ pip install groq pymupdf openpyxl
 
 **Librerías:** PHPMailer · SweetAlert2 · Font Awesome · PyMuPDF · OpenPyXL
 
-<br>
+</div>
 
----
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-## Métricas del Proyecto
+## 📈 Métricas del Proyecto
 
 <div align="center">
 
@@ -335,25 +332,25 @@ pip install groq pymupdf openpyxl
 
 </div>
 
-<br>
-
----
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
 <div align="center">
 
-## Autor
+## 👨‍💻 Autor
 
 <br>
 
-**Ricardo Hernández**
+<a href="https://github.com/WhySoRichy">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=24&pause=1000&color=EB0045&center=true&vCenter=true&random=false&width=400&lines=Ricardo+Hern%C3%A1ndez" alt="Ricardo Hernández" />
+</a>
 
-*Desarrollador Web Full Stack*
+**Desarrollador Web Full Stack**
 
 <br>
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://co.linkedin.com/in/ricardoit)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/WhySoRichy)
-[![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:richygg2003@gmail.com)
+[![Email](https://img.shields.io/badge/Email-eb0045?style=for-the-badge&logo=gmail&logoColor=white)](mailto:richygg2003@gmail.com)
 
 <br>
 
@@ -366,5 +363,8 @@ pip install groq pymupdf openpyxl
 <br>
 
 <img src="https://img.shields.io/github/stars/WhySoRichy/gh-selcomp?style=social" alt="GitHub Stars">
+<img src="https://img.shields.io/github/forks/WhySoRichy/gh-selcomp?style=social" alt="GitHub Forks">
 
 </div>
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:eb0045,100:404e62&height=120&section=footer"/>
