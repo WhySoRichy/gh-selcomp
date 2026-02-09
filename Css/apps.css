@@ -1,0 +1,348 @@
+/* Estilos para el módulo de aplicaciones */
+
+/* Ajuste de padding para consistencia */
+.contenido-principal {
+    padding-top: 1.5rem !important;
+}
+
+/* Contenedor principal */
+.apps-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Grid de aplicaciones */
+.apps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Responsive: 2 columnas en tablets, 1 en móvil */
+@media (max-width: 1200px) {
+    .apps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .apps-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Cards de aplicaciones */
+.app-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgb(64 78 98);
+    border-color: #404e62;
+}
+
+/* Header de la card */
+.app-header {
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.app-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 1rem auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.app-card:hover .app-icon {
+    transform: scale(1.05);
+}
+
+.app-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.app-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 0.25rem 0;
+}
+
+.app-subtitle {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Contenido de la card */
+.app-content {
+    padding: 1.25rem 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-description {
+    color: #4b5563;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    min-height: 65px;
+}
+
+.app-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.app-features li {
+    padding: 0.35rem 0;
+    color: #6b7280;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.app-features li i {
+    color: #10b981;
+    font-size: 0.875rem;
+    width: 16px;
+}
+
+/* Botón de acción */
+.app-action {
+    padding: 1rem 1.5rem;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    margin-top: auto;
+}
+
+.btn-ingresar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: linear-gradient(135deg, #eb0045, #eb0045);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.btn-ingresar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-ingresar:hover::before {
+    left: 100%;
+}
+
+.btn-ingresar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgb(64 78 98);
+    background: linear-gradient(135deg, #232E40, #232E40);
+}
+
+.btn-ingresar:active {
+    transform: translateY(0);
+}
+
+.btn-ingresar i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-ingresar:hover i {
+    transform: translateX(3px);
+}
+
+/* Estados especiales */
+.app-card.coming-soon {
+    opacity: 0.7;
+    position: relative;
+}
+
+.app-card.coming-soon::after {
+    content: 'Próximamente';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #f59e0b;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.coming-soon .btn-ingresar {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+.coming-soon .btn-ingresar:hover {
+    transform: none;
+    box-shadow: none;
+    background: #9ca3af;
+}
+
+/* Badge de estado */
+.app-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.app-status.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.app-status.maintenance {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .apps-container {
+        padding: 0 0.5rem;
+    }
+    
+    .apps-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .app-header {
+        padding: 1.5rem;
+    }
+    
+    .app-content {
+        padding: 1.5rem;
+    }
+    
+    .app-action {
+        padding: 1.5rem;
+    }
+    
+    .app-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1rem;
+    }
+    
+    .app-title {
+        font-size: 1.25rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.app-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.app-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.app-card:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+/* Efectos de hover mejorados */
+.app-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #404e62, #404e62);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.app-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Efecto ripple para botones */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}

@@ -1,0 +1,800 @@
+/* Estilos específicos para la página de documentos de usuario */
+
+
+
+/* Ajustar header específicamente para documentos */
+.contenido-principal .header-universal {
+    margin-top: 100px !important;
+    height: 70px !important;
+    padding: 0.875rem 0 !important;
+}
+
+.contenido-principal .header-universal .header-title i {
+    font-size: 1.75rem !important;
+}
+
+.contenido-principal .header-universal .header-title h1 {
+    font-size: 1.75rem !important;
+}
+
+.contenido-principal .header-universal .header-info {
+    min-height: 50px !important;
+}
+
+.contenido-principal .header-universal .header-stats {
+    min-height: 45px !important;
+}
+
+/* Ajustar contenido principal para documentos */
+main.contenido-principal {
+    padding-top: 20px !important;
+}
+
+/* Contenedor principal */
+.documentos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Grid de categorías de documentos */
+.documentos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+/* Tarjeta de categoría de documento */
+.documento-categoria {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.documento-categoria:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Header de la categoría */
+.categoria-header {
+    padding: 25px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.categoria-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.categoria-info {
+    flex: 1;
+}
+
+.categoria-info h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+
+.categoria-info p {
+    color: #718096;
+    font-size: 0.9rem;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
+.documento-count {
+    display: inline-block;
+    background: #f7fafc;
+    color: #4a5568;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.categoria-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.btn-subir, .btn-ver {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 80px;
+    justify-content: center;
+}
+
+.btn-subir {
+    background: linear-gradient(135deg, #eb0045 0%, #eb0045 100%);
+    color: white;
+}
+
+.btn-subir i {
+    color: white !important;
+}
+
+.btn-subir:hover {
+    background: linear-gradient(135deg, #4C596B 0%, #4C596B 100%);
+    transform: translateY(-1px);
+}
+
+.btn-subir:hover i {
+    color: white !important;
+}
+
+.btn-ver {
+    background: #f8fafc;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-ver:hover {
+    background: #edf2f7;
+    color: #ffffff;
+}
+
+/* Lista de documentos */
+.documentos-lista {
+    border-top: 1px solid #e2e8f0;
+    padding: 0;
+}
+
+.documento-item {
+    padding: 15px 25px;
+    border-bottom: 1px solid #f7fafc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.2s ease;
+}
+
+.documento-item:hover {
+    background: #f8fafc;
+}
+
+.documento-item:last-child {
+    border-bottom: none;
+}
+
+.documento-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.documento-info > i {
+    font-size: 1.5rem;
+    color: #eb0045;
+}
+
+.documento-detalles {
+    flex: 1;
+    min-width: 0;
+    max-width: calc(100% - 150px);
+}
+
+.documento-detalles h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.documento-fecha, .documento-tamano {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: #718096;
+    margin-right: 15px;
+}
+
+.documento-descripcion {
+    font-size: 0.85rem;
+    color: #4a5568;
+    margin: 4px 0 0 0;
+    font-style: italic;
+}
+
+.documento-acciones {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.btn-accion {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.btn-ver {
+    background: #eb0045;
+    color: #ffffff;
+}
+
+.btn-ver:hover {
+    background: #404e62;
+}
+
+.btn-descargar {
+    background: #059669;
+}
+
+.btn-descargar:hover {
+    background: #046647;
+}
+
+.btn-eliminar {
+    background: #eb0045;
+}
+
+.btn-eliminar:hover {
+    background: #b40137;
+}
+
+/* Información adicional */
+.info-documentos {
+    margin-top: 40px;
+}
+
+.info-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 16px;
+    padding: 25px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.info-icon {
+    width: 50px;
+    height: 50px;
+    background: #404e62;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #eb0045;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.info-content h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0 0 15px 0;
+}
+
+.info-content ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.info-content li {
+    color: #4a5568;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.info-content li::before {
+    content: '•';
+    color: #3b82f6;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* Modal para subir documentos - Mejorado */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 
+        0 25px 80px rgba(0, 0, 0, 0.4),
+        0 10px 40px rgba(220, 38, 38, 0.15);
+    transform: scale(0.8) translateY(40px);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(220, 38, 38, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+/* Efecto de gradiente sutil en el borde superior */
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #eb0045, #eb0045, #eb0045);
+    border-radius: 20px 20px 0 0;
+}
+
+.modal-header {
+    padding: 30px 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+    position: relative;
+}
+
+.modal-header h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    background: linear-gradient(135deg, #eb0045, #eb0045);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.btn-cerrar {
+    background: #404e62;
+    border: 1px solid #e2e8f0;
+    font-size: 1.3rem;
+    color: #64748b;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-cerrar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-cerrar:hover {
+    background: #eb0045;
+    color: white;
+    border-color: #eb0045;
+    transform: scale(1.05);
+}
+
+.btn-cerrar:hover::before {
+    left: 100%;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    position: relative;
+}
+
+.form-group label::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, #eb0045, #eb0045);
+    border-radius: 1px;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+    color: #334155;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.form-group textarea:hover {
+    border-color: #eb0045;
+    background: #fef2f2;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(235, 0, 69, 0.1);
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #eb0045;
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 0 4px rgba(235, 0, 69, 0.1),
+        0 8px 25px rgba(235, 0, 69, 0.15);
+}
+
+.form-group textarea::placeholder {
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.form-group small {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #f1f5f9;
+    border-left: 3px solid #eb0045;
+    border-radius: 0 8px 8px 0;
+}
+
+.modal-footer {
+    padding: 0 30px 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 25px;
+    margin-top: 10px;
+}
+
+.btn-cancelar, .btn-subir-documento {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.btn-cancelar {
+    background: #f8fafc;
+    color: #64748b;
+    border: 2px solid #e2e8f0;
+}
+
+.btn-cancelar:hover {
+    background: #e2e8f0;
+    color: #475569;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(100, 116, 139, 0.15);
+}
+
+.btn-subir-documento {
+    background: linear-gradient(135deg, #eb0045 0%, #eb0045 50%, #eb0045 100%);
+    color: white;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-subir-documento i {
+    color: white !important;
+}
+
+.btn-subir-documento::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-subir-documento:hover {
+    background: linear-gradient(135deg, #b91c1c 0%, #eb0045 50%, #b91c1c 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(220, 38, 38, 0.4);
+}
+
+.btn-subir-documento:hover::before {
+    left: 100%;
+}
+
+.btn-subir-documento:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+}
+
+/* Efecto de ripple para el botón principal */
+.btn-subir-documento::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.btn-subir-documento:active::after {
+    width: 100px;
+    height: 100px;
+}
+
+/* Responsive para modal mejorado */
+@media (max-width: 768px) {
+    .documentos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .categoria-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .categoria-actions {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .documento-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .documento-acciones {
+        align-self: flex-end;
+    }
+    
+    .info-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 20px;
+        border-radius: 16px;
+    }
+    
+    .modal-header, .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-footer {
+        padding: 0 20px 20px;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-cancelar, .btn-subir-documento {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Animaciones adicionales para el modal */
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes modalSlideOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8) translateY(40px);
+    }
+}
+
+.modal-overlay.active .modal-content {
+    animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+/* Estados de carga para el botón de subir */
+.btn-subir-documento.loading {
+    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn-subir-documento.loading::before {
+    display: none;
+}
+
+.btn-subir-documento.loading .fas {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Mejoras en la selección de archivos */
+.form-group input[type="file"],
+.modal-body input[type="file"],
+input#archivo-documento {
+    width: 100%;
+    padding: 16px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+    cursor: pointer;
+}
+
+.form-group input[type="file"]:hover {
+    border-color: #eb0045;
+    background: #fef2f2;
+    transform: translateY(-2px);
+}
+
+.form-group input[type="file"]:focus {
+    outline: none;
+    border-color: #eb0045;
+    border-style: solid;
+    background: white;
+    box-shadow: 
+        0 0 0 4px rgba(220, 38, 38, 0.1),
+        0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, #eb0045, #eb0045);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+    background: linear-gradient(135deg, #b91c1c, #eb0045);
+    transform: translateY(-1px);
+}
+
+/* Efectos de enfoque mejorados */
+.form-group input[type="file"]:focus-visible,
+.form-group textarea:focus-visible {
+    transform: translateY(-2px);
+}
+
+/* Indicador de archivo seleccionado */
+.form-group input[type="file"]:valid {
+    border-color: #10b981;
+    background: #ecfdf5;
+}
+
+.fas {
+  color: rgb(255, 255, 255);
+}
+
+/* SweetAlert por encima del modal */
+.swal2-container {
+    z-index: 99999 !important;
+}
+
+.swal2-popup {
+    z-index: 100000 !important;
+}

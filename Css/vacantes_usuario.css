@@ -1,0 +1,478 @@
+/* Estilos específicos para vacantes de usuario */
+/* IMPORTANTE: Selectores específicos para no interferir con navbar/sidebar */
+
+/* Ajustar solo el contenido principal de vacantes */
+main.contenido-principal {
+    padding-top: 20px !important;
+}
+
+/* Ajustar el header universal solo en la página de vacantes */
+main.contenido-principal .header-universal {
+    margin-top: 100px !important;
+    height: 70px !important;
+    padding: 0.875rem 0 !important;
+}
+
+/* Ajustar elementos del header para consistencia visual */
+main.contenido-principal .header-universal .header-title i {
+    font-size: 1.75rem !important;
+}
+
+main.contenido-principal .header-universal .header-title h1 {
+    font-size: 1.75rem !important;
+}
+
+main.contenido-principal .header-universal .header-stats {
+    min-height: 45px !important;
+}
+
+
+
+/* Contenedor principal de vacantes */
+.vacantes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.vacantes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+/* Tarjetas de vacantes para usuario */
+.vacante-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(235, 0, 69, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    animation: fadeIn 0.5s ease-out;
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+}
+
+.vacante-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(235, 0, 69, 0.12);
+}
+
+.vacante-header {
+    padding: 20px 20px 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.vacante-icon {
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #eb0045 0%, #d91e40 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 15px rgba(235, 0, 69, 0.3);
+    flex-shrink: 0;
+}
+
+.vacante-info {
+    flex: 1;
+    min-width: 150px;
+}
+
+.vacante-titulo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+}
+
+.vacante-ciudad {
+    color: #718096;
+    font-size: 0.9rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vacante-ciudad i {
+    color: #eb0045;
+    font-size: 0.9rem;
+}
+
+.vacante-content {
+    padding: 0 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.vacante-descripcion {
+    flex: 1;
+}
+
+.vacante-descripcion h4 {
+    color: #2d3748;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vacante-descripcion h4 i {
+    color: #eb0045;
+    font-size: 0.95rem;
+}
+
+.vacante-descripcion p {
+    color: #4a5568;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 0.9rem;
+    overflow-wrap: break-word;
+    word-break: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Footer de la tarjeta con botones */
+.vacante-actions {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: auto;
+}
+
+.btn-ver-mas,
+.btn-postular {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: none;
+}
+
+.btn-ver-mas {
+    background: linear-gradient(135deg, #eb0045 0%, #d91e40 100%);
+    color: white;
+}
+
+.btn-ver-mas:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(235, 0, 69, 0.3);
+}
+
+.btn-postular {
+    background: linear-gradient(135deg, #eb0045 0%, #d91e40 100%);
+    color: white;
+}
+
+.btn-postular:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(235, 0, 69, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* ===== MODAL ESPECÍFICO PARA VACANTES ===== */
+/* Estilos base del modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+    transform: scale(0.8) translateY(40px);
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.modal-header {
+    padding: 25px 25px 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.modal-header .vacante-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #eb0045 0%, #d91e40 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px rgba(235, 0, 69, 0.3);
+    flex-shrink: 0;
+}
+
+.btn-cerrar {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    font-size: 1.2rem;
+    color: #64748b;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-cerrar:hover {
+    background: #eb0045;
+    color: white;
+    border-color: #eb0045;
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.modal-footer {
+    padding: 20px 25px 25px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-footer .btn-postular {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 32px;
+    font-size: 1rem;
+}
+
+/* Estilos específicos del modal de vacantes */
+.modal-title {
+    flex: 1;
+}
+
+.modal-title h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0 0 5px 0;
+}
+
+.modal-title .modal-ciudad {
+    color: #718096;
+    font-size: 0.95rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-descripcion {
+    margin-bottom: 25px;
+}
+
+.modal-descripcion h3 {
+    color: #2d3748;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-descripcion h3 i {
+    color: #eb0045;
+}
+
+.modal-descripcion p {
+    color: #4a5568;
+    line-height: 1.7;
+    margin: 0;
+    font-size: 1rem;
+    white-space: pre-wrap;
+}
+
+.modal-footer .btn-postular {
+    padding: 16px 32px;
+    font-size: 1rem;
+}
+
+/* Estado vacío */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #4a5568;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    color: #cbd5e0;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    color: #2d3748;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    margin: 0;
+    color: #718096;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación aplicada directamente en la primera definición de .vacante-card */
+
+/* Responsive */
+@media (max-width: 768px) {
+    .vacantes-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .vacante-header {
+        padding: 20px 20px 10px;
+        gap: 15px;
+    }
+    
+    .vacante-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .vacante-titulo {
+        font-size: 1.2rem;
+    }
+    
+    .vacante-content {
+        padding: 0 20px 20px;
+    }
+    
+    .vacante-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .btn-ver-mas,
+    .btn-postular {
+        justify-content: center;
+        padding: 14px 20px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 20px;
+    }
+    
+    .modal-header {
+        padding: 20px 20px 10px;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-footer {
+        padding: 15px 20px;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .vacantes-container {
+        padding: 0 15px;
+    }
+    
+    .vacante-header {
+        padding: 15px 15px 10px;
+    }
+    
+    .vacante-content {
+        padding: 0 15px 15px;
+    }
+    
+    .modal-header {
+        padding: 15px 15px 10px;
+    }
+    
+    .modal-body {
+        padding: 15px;
+    }
+    
+    .modal-footer {
+        padding: 15px;
+    }
+}

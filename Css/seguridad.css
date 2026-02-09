@@ -1,0 +1,815 @@
+/**
+ * Estilos mejorados para la página de seguridad de la cuenta
+ * Incluye estilos para el historial de accesos y formulario de cambio de contraseña
+ * @version 2.0
+ */
+
+/* Variables de colores corporativos */
+:root {
+  --primary-color: #eb0045;
+  --secondary-color: #2c3e50;
+  --accent-color: #3498db;
+  --success-color: #2ecc71;
+  --warning-color: #f39c12;
+  --danger-color: #e74c3c;
+  --light-gray: #f8f9fa;
+  --medium-gray: #e2e8f0;
+  --dark-gray: #718096;
+  --text-color: #333333;
+  --white: #ffffff;
+}
+
+/* ========== ESTILOS DE CARDS PARA SEGURIDAD ========== */ */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 0;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    border-top: 4px solid #eb0045;
+    animation: fadeInUp 0.6s ease forwards;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+.dashboard-card:nth-child(3) { animation-delay: 0.3s; }
+.dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(220, 38, 38, 0.15);
+    border-color: #eb0045;
+}
+
+.card-header {
+    padding: 2.5rem 2rem 1.5rem;
+    background: linear-gradient(135deg, #fafafa, #f4f4f5);
+    border-bottom: 1px solid #e2e8f0;
+    text-align: center;
+    position: relative;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #eb0045, #eb0045);
+    border-radius: 2px;
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #4C596B, #3d4a5c);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 6px 20px rgba(76, 89, 107, 0.4);
+}
+
+.card-icon i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #4C596B;
+    letter-spacing: 0.5px;
+}
+
+.card-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-content p {
+    margin: 0 0 1.5rem;
+    color: #6b7280;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.btn-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #eb0045, #c4003a);
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+.btn-card:hover {
+    background: linear-gradient(135deg, #4C596B, #3d4a5c);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(76, 89, 107, 0.4);
+}
+
+.btn-card.btn-success {
+    background: linear-gradient(135deg, var(--success-color), #27ae60);
+}
+
+.btn-card.btn-success:hover {
+    background: linear-gradient(135deg, #27ae60, #1e8449);
+}
+
+.btn-card.btn-danger {
+    background: linear-gradient(135deg, var(--danger-color), #c0392b);
+}
+
+.btn-card.btn-danger:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+}
+
+/* ========== ICONOS ESPECÍFICOS POR CARD ========== */
+
+/* Todos los iconos - Rojo corporativo con icono blanco */
+.card-icon-password,
+.card-icon-history,
+.card-icon-2fa,
+.card-icon-global {
+    background: linear-gradient(135deg, #eb0045, #c4003a) !important;
+    box-shadow: 0 6px 20px rgba(235, 0, 69, 0.4) !important;
+}
+
+.card-icon-password i,
+.card-icon-history i,
+.card-icon-2fa i,
+.card-icon-global i {
+    color: white !important;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .card-header,
+    .card-content {
+        padding: 1.5rem;
+    }
+    
+    .card-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .card-icon i {
+        font-size: 1.5rem;
+    }
+}
+
+/* Estilos para el modal de cambio de contraseña - REDISEÑADO */
+.form-container-professional {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    width: 600px;
+    max-width: 94%;
+    max-height: 90vh;
+    background-color: #404e62;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow: hidden;
+    opacity: 0;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    will-change: transform, opacity;
+}
+
+.form-container-professional.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* Indicadores de fortaleza de contraseña */
+.input-group-professional input.password-weak {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.input-group-professional input.password-medium {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+}
+
+.input-group-professional input.password-strong {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+}
+
+/* Encabezado del formulario */
+.form-header-professional {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 24px;
+    background-color: #404e62;
+    color: white;
+    position: relative;
+}
+
+.form-header-professional h2 {
+    font-size: 1.15rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+}
+
+.form-header-professional h2 i {
+    margin-right: 12px;
+    font-size: 1.2rem;
+}
+
+/* Botón de cierre */
+.btn-close {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.btn-close i {
+    font-size: 14px;
+}
+
+.btn-close:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* NOTA: Estilos de .historial-container movidos a historial-accesos.css */
+
+/* Estilos para el formulario de cambio de contraseña - OPTIMIZADO */
+.form-usuario-professional {
+    padding: 28px 32px;
+    max-height: calc(90vh - 100px);
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 12px;
+    margin: 0 16px 16px 16px;
+}
+
+.form-section-professional {
+    margin-bottom: 0;
+}
+
+.section-title-professional {
+    font-size: 0.875rem;
+    margin: 0 0 20px 0;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-title-professional i {
+    margin-right: 10px;
+    color: #eb0045;
+    font-size: 1rem;
+}
+
+.form-grid-professional {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group-professional {
+    position: relative;
+}
+
+.input-group-professional label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.input-group-professional .password-hint {
+    display: block;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+.input-group-professional .password-match {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 6px;
+    min-height: 18px;
+}
+
+.input-group-professional .password-match-success {
+    color: #10b981;
+    font-weight: 500;
+}
+
+.input-group-professional .password-match-error {
+    color: #ef4444;
+    font-weight: 500;
+}
+
+.input-group-professional input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background-color: #f9fafb;
+    height: 46px;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.input-group-professional input:focus {
+    outline: none;
+    border-color: #eb0045;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(235, 0, 69, 0.08);
+}
+
+.input-group-professional input::placeholder {
+    color: #9ca3af;
+}
+
+.form-buttons-professional {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.btn-save-professional,
+.btn-cancel-professional {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border: none;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-save-professional {
+    background-color: #eb0045;
+    color: white;
+}
+
+.btn-save-professional:hover {
+    background-color: #d30040;
+}
+
+.btn-save-professional:active {
+    transform: scale(0.98);
+}
+
+.btn-cancel-professional {
+    background-color: #f1f5f9;
+    color: #64748b;
+}
+
+.btn-cancel-professional:hover {
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+.btn-save-professional i,
+.btn-cancel-professional i {
+    margin-right: 8px;
+    font-size: 0.9rem;
+}
+
+/* Tabla de historial */
+.table-responsive {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.historial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.historial-table th, 
+.historial-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.historial-table th {
+    background-color: #2c3e50;
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.historial-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Estilos para accesos exitosos y fallidos */
+.acceso-success td:first-child {
+    border-left: 3px solid #27ae60;
+}
+
+.acceso-error td:first-child {
+    border-left: 3px solid #e74c3c;
+}
+
+.acceso-success:hover {
+    background-color: #eafaf1 !important;
+}
+
+.acceso-error:hover {
+    background-color: #fdf2f0 !important;
+}
+
+.estado-success, 
+.estado-error {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.estado-success {
+    background-color: #e6f9f1;
+    color: #27ae60;
+}
+
+.estado-error {
+    background-color: #fce4e4;
+    color: #e74c3c;
+}
+
+/* Paginación */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+.btn-pag {
+    padding: 6px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-pag:hover:not(.disabled):not(.active) {
+    background-color: #e9ecef;
+}
+
+.btn-pag.active {
+    background-color: #2c3e50;
+    color: white;
+    border-color: #2c3e50;
+}
+
+.btn-pag.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Mensajes */
+.loading-text, 
+.empty-text {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+}
+
+.loading-text i, 
+.empty-text i {
+    margin-right: 10px;
+}
+
+/* Contenedor de error mejorado */
+.error-container {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: #fef8f8;
+    border-radius: 10px;
+    border: 1px solid #f5d4d4;
+    margin: 20px 0;
+}
+
+.error-text {
+    color: #e74c3c;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.error-text i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.error-details {
+    color: #666;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.error-help {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.error-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-error-action {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f1f3f5;
+    color: #495057;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid #dee2e6;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-error-action i {
+    margin-right: 8px;
+}
+
+.btn-error-action:hover {
+    background-color: #e9ecef;
+    color: #212529;
+}
+
+.empty-text {
+    color: #2c3e50;
+}
+
+/* Mejoras para el formulario de cambio de contraseña */
+.password-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 0;
+    padding-left: 8px;
+    position: relative;
+    font-style: italic;
+}
+
+.password-hint::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #adb5bd;
+}
+
+.password-match {
+    display: block;
+    font-size: 0.8rem;
+    margin-top: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.password-match.match {
+    color: #27ae60;
+    background-color: #e8f5e9;
+}
+
+.password-match.no-match {
+    color: #e74c3c;
+    background-color: #fdeaea;
+}
+
+/* Estilo específico para los textos de ayuda de contraseña */
+.form-grid-professional .password-hint {
+    padding-left: 0;
+    margin-left: 8px;
+    line-height: 1.3;
+}
+
+/* Estilos para los campos con validación */
+.input-group-professional input.valid {
+    border-color: #27ae60;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2327ae60' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.input-group-professional input.invalid {
+    border-color: #e74c3c;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23e74c3c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='15' y1='9' x2='9' y2='15'%3E%3C/line%3E%3Cline x1='9' y1='9' x2='15' y2='15'%3E%3C/line%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* Estilo para cuando se abre un modal */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Fondo oscuro para modales - Sin blur para mejor rendimiento */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.75);
+    z-index: 999;
+    display: none;
+    transition: opacity 0.25s ease;
+    opacity: 0;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+}
+
+/* Estilo para cuando se abre un modal */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* ========== ESTILOS PARA 2FA ========== */
+
+/* Cuando 2FA está ACTIVO - borde verde distintivo */
+.card-2fa-activo {
+    border: 2px solid var(--success-color);
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.05), rgba(46, 204, 113, 0.1));
+}
+
+/* Icono 2FA activo cambia a verde */
+.card-2fa-activo .card-icon-2fa {
+    background: linear-gradient(135deg, var(--success-color), #27ae60) !important;
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4) !important;
+}
+
+.badge-activo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: var(--success-color);
+    color: white;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: auto;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-color), #27ae60) !important;
+    border-color: var(--success-color) !important;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #27ae60, #229954) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger-color), #c0392b) !important;
+    border-color: var(--danger-color) !important;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+.dashboard-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .historial-table {
+        font-size: 0.8rem;
+    }
+    
+    .historial-table th, 
+    .historial-table td {
+        padding: 8px 10px;
+    }
+    
+    .form-grid-professional {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn-close {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .badge-activo {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}

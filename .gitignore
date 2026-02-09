@@ -1,0 +1,133 @@
+# =====================================================
+# Portal Gestión Humana - GitIgnore
+# =====================================================
+
+# -----------------------------------------------------
+# 🔐 ARCHIVOS SENSIBLES (NUNCA SUBIR)
+# -----------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# Configuración con credenciales
+config.php
+
+# -----------------------------------------------------
+# 📦 DEPENDENCIAS
+# -----------------------------------------------------
+vendor/
+node_modules/
+composer.lock
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+env/
+venv/
+
+# -----------------------------------------------------
+# 📁 DOCUMENTOS Y ARCHIVOS DE USUARIOS
+# -----------------------------------------------------
+# Hojas de vida y documentos cargados
+Documentos/Postulaciones/*
+Documentos/HojasDeVida/*
+Documentos/Certificados/*
+Documentos/Certificaciones/*
+Documentos/ExperienciaLaboral/*
+Documentos/Otros/*
+Documentos/Procesados/*
+Documentos/Respuestas/*
+Documentos/temp/*
+
+# Mantener estructura de carpetas
+!Documentos/Postulaciones/.gitkeep
+!Documentos/HojasDeVida/.gitkeep
+!Documentos/Certificados/.gitkeep
+!Documentos/Certificaciones/.gitkeep
+!Documentos/ExperienciaLaboral/.gitkeep
+!Documentos/Otros/.gitkeep
+!Documentos/Procesados/.gitkeep
+!Documentos/Respuestas/.gitkeep
+
+# Recursos subidos por admin (excepto ejemplos)
+Documentos/Recursos/*
+!Documentos/Recursos/.gitkeep
+
+# Notificaciones con adjuntos
+Documentos/Notificaciones/*
+!Documentos/Notificaciones/.gitkeep
+
+# Avatares de usuarios
+Img/Avatars/*
+!Img/Avatars/README.md
+!Img/Avatars/.gitkeep
+
+# Excel generado por IA
+Excel/Prospectos.xlsx
+
+# -----------------------------------------------------
+# 🗄️ BASE DE DATOS
+# -----------------------------------------------------
+*.sql
+*.sql.bak
+*.sql.backup
+*_backup.sql
+historial_*.sql
+gestion humana.sql
+
+# Mantener solo el schema
+!database/schema.sql
+
+# -----------------------------------------------------
+# 📝 ARCHIVOS TEMPORALES Y LOGS
+# -----------------------------------------------------
+*.log
+*.tmp
+*.bak
+*.backup
+*.cache
+error_log
+debug.log
+
+# -----------------------------------------------------
+# 💻 SISTEMA OPERATIVO
+# -----------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# -----------------------------------------------------
+# 🛠️ IDEs Y EDITORES
+# -----------------------------------------------------
+.vscode/
+.idea/
+*.sublime-*
+*.sublime-workspace
+*.sublime-project
+.project
+.settings/
+*.code-workspace
+.history/
+
+# -----------------------------------------------------
+# 📄 DOCUMENTACIÓN (INCLUIR)
+# -----------------------------------------------------
+!README.md
+!CHANGELOG.md
+!CONTRIBUTING.md
+!LICENSE
+!docs/
+
+# -----------------------------------------------------
+# 🧪 DESARROLLO Y PRUEBAS
+# -----------------------------------------------------
+dev_files/
+tests/coverage/
+.phpunit.result.cache

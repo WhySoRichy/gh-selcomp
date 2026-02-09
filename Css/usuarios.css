@@ -1,0 +1,814 @@
+/* Ajuste de padding para consistencia */
+.contenido-principal {
+    padding-top: 1.5rem !important;
+}
+
+/* Barra de acciones principales */
+.actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.actions-bar .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.actions-bar .actions-right {
+    display: flex;
+    gap: 1rem;
+}
+
+.actions-bar .btn-primary,
+.actions-bar .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.actions-bar .btn-primary {
+    background: #eb0045;
+    color: white;
+}
+
+.actions-bar .btn-primary:hover {
+    background: #bc093f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.actions-bar .btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.actions-bar .btn-secondary:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+/* Contenedor de usuarios */
+.usuarios-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Tabla de usuarios */
+.table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.usuarios-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.usuarios-table thead {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.usuarios-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.usuarios-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s;
+}
+
+.usuarios-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.usuarios-table td {
+    padding: 1rem;
+    vertical-align: middle;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.usuarios-table .user-id {
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.usuarios-table .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.usuarios-table .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 1.25rem;
+}
+
+.usuarios-table .user-avatar i.fa-crown {
+    color: #eb0045;
+}
+
+.usuarios-table .user-name {
+    font-weight: 600;
+    color: #111827;
+}
+
+.usuarios-table .user-email {
+    color: #6b7280;
+    font-family: monospace;
+}
+
+.usuarios-table .user-cargo,
+.usuarios-table .user-area {
+    color: #374151;
+}
+
+.usuarios-table .role-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.usuarios-table .role-badge.admin {
+    background: #fee2e2;
+    color: #eb0045;
+}
+
+.usuarios-table .role-badge.user {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.usuarios-table .actions-cell {
+    text-align: center;
+}
+
+.usuarios-table .btn-edit {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    background: #f3f4f6;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+}
+
+.usuarios-table .btn-edit:hover {
+    background: #eb0045;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+}
+
+/* Fila de formulario de edición */
+.edit-form-row {
+    background: #f8fafc;
+    border-top: 2px solid #eb0045;
+}
+
+.edit-form-container {
+    padding: 2rem;
+}
+
+.edit-form-container .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.edit-form-container .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-form-container .form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.edit-form-container .form-group input,
+.edit-form-container .form-group select {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.edit-form-container .form-group input:focus,
+.edit-form-container .form-group select:focus {
+    outline: none;
+    border-color: #eb0045;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.edit-form-container .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.edit-form-container .btn-save,
+.edit-form-container .btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.edit-form-container .btn-save {
+    background: #eb0045;
+    color: white;
+}
+
+.edit-form-container .btn-save:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.edit-form-container .btn-cancel {
+    background: #6b7280;
+    color: white;
+}
+
+.edit-form-container .btn-cancel:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+/* No hay usuarios */
+.no-usuarios {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.no-usuarios .no-content-icon {
+    font-size: 4rem;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+
+.no-usuarios h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.no-usuarios p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.no-usuarios .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #eb0045;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.no-usuarios .btn-primary:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Formulario para agregar nuevos usuarios */
+
+/* Contenedor del formulario */
+.form-container-professional {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.form-usuario-professional {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+/* Secciones del formulario */
+.form-section-professional {
+    padding: 2rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.form-section-professional:last-of-type {
+    border-bottom: none;
+}
+
+.section-title-professional {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #404E62;
+}
+
+.section-title-professional i {
+    color: #eb0045;
+    font-size: 1.25rem;
+}
+
+/* Grid del formulario */
+.form-grid-professional {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Grupos de input */
+.input-group-professional {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.input-group-professional label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.input-group-professional input,
+.input-group-professional select {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: white;
+}
+
+.input-group-professional input:focus,
+.input-group-professional select:focus {
+    outline: none;
+    border-color: #eb0045;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.input-group-professional input::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Botones del formulario */
+.form-buttons-professional {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding: 2rem;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-save-professional,
+.btn-cancel-professional {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-save-professional {
+    background: #eb0045;
+    color: white;
+}
+
+.btn-save-professional:hover {
+    background: #d01951;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.btn-cancel-professional {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-cancel-professional:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+/* Header info adicional */
+.usuarios-header-compact .header-info {
+    display: flex;
+    align-items: center;
+}
+
+.usuarios-header-compact .info-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+/* Página de eliminación de usuarios */
+
+/* Contenedor de peligro */
+.danger-container-professional {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Advertencia profesional */
+.warning-professional {
+    background: #404E62;
+    border: 1px solid #6d6d6d;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-left: 4px solid #6d6d6d;
+}
+
+.warning-content-professional {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.warning-icon-professional {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-top: 0.25rem;
+}
+
+.warning-content-professional strong {
+    color: #ffffff;
+    font-size: 1.125rem;
+}
+
+.warning-content-professional p {
+    color: #ffffff;
+    margin: 0.5rem 0 0 0;
+}
+
+/* Estado vacío profesional */
+.empty-users-professional {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.empty-icon-professional {
+    font-size: 4rem;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+
+.empty-users-professional h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.empty-users-professional p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.empty-users-professional .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #eb0045;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.empty-users-professional .btn-primary:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Filas de peligro en la tabla */
+.user-row-danger {
+    transition: background-color 0.2s;
+}
+
+.user-row-danger:hover {
+    background: #fef2f2;
+}
+
+/* Formulario de eliminación */
+.delete-form-professional {
+    display: inline-block;
+}
+
+.btn-delete-professional {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    background: #eb0045;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+}
+
+.btn-delete-professional:hover {
+    background: #eb0045;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px #eb0045;
+}
+
+.btn-delete-professional:active {
+    transform: translateY(0);
+}
+
+/* Estilos específicos para el módulo de cambiar contraseña */
+
+/* Hints de contraseña */
+.password-hint {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+/* Indicador de coincidencia de contraseñas */
+.password-match {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.password-match.success {
+    color: #059669;
+}
+
+.password-match.error {
+    color: #eb0045;
+}
+
+/* Estilos para inputs de contraseña con validación */
+.input-group-professional input[type="password"]:invalid {
+    border-color: #eb0045;
+}
+
+.input-group-professional input[type="password"]:valid {
+    border-color: #10b981;
+}
+
+/* Animación suave para feedback visual */
+.input-group-professional input[type="password"] {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus mejorado para campos de contraseña */
+.input-group-professional input[type="password"]:focus {
+    outline: none;
+    border-color: #eb0045;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* Estilo para validación exitosa */
+.input-group-professional input[type="password"].valid {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Estilo para validación con error */
+.input-group-professional input[type="password"].invalid {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .usuarios-header-compact .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 0 1rem;
+    }
+    
+    .usuarios-header-compact .header-stats {
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.75rem;
+        width: 100%;
+    }
+    
+    .usuarios-header-compact .stat-item {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .usuarios-header-compact .stat-number {
+        font-size: 1.25rem;
+    }
+    
+    .usuarios-header-compact .stat-label {
+        font-size: 0.7rem;
+    }
+    
+    .actions-bar {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .actions-bar .actions-right {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    .usuarios-table {
+        min-width: 800px;
+    }
+    
+    .edit-form-container .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .edit-form-container .form-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .form-container-professional {
+        padding: 0 0.5rem;
+    }
+    
+    .form-section-professional {
+        padding: 1.5rem;
+    }
+    
+    .form-grid-professional {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-buttons-professional {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .form-buttons-professional .btn-save-professional,
+    .form-buttons-professional .btn-cancel-professional {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .danger-header-professional .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .danger-header-professional .header-info {
+        display: none;
+    }
+    
+    .warning-content-professional {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .danger-container-professional {
+        padding: 0 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .usuarios-header-compact {
+        padding: 0.75rem 0;
+    }
+    
+    .usuarios-header-compact .header-content {
+        padding: 0 0.75rem;
+    }
+    
+    .usuarios-header-compact .header-title h1 {
+        font-size: 1.25rem;
+    }
+    
+    .usuarios-header-compact .header-title i {
+        font-size: 1.25rem;
+    }
+    
+    .usuarios-header-compact .stat-number {
+        font-size: 1.25rem;
+    }
+    
+    .usuarios-header-compact .stat-label {
+        font-size: 0.65rem;
+    }
+    
+    .usuarios-header-compact .stat-item {
+        padding: 0.5rem;
+    }
+    
+    .usuarios-container {
+        padding: 0 0.5rem;
+    }
+    
+    .form-section-professional {
+        padding: 1rem;
+    }
+    
+    .form-buttons-professional {
+        padding: 1rem;
+    }
+    
+    .section-title-professional {
+        font-size: 1rem;
+    }
+    
+    .usuarios-header-compact .header-info {
+        display: none;
+    }
+}

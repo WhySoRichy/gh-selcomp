@@ -1,0 +1,939 @@
+/**
+ * Sistema de Modales - Portal de Gestión Humana
+ * REDISEÑO COMPLETO - Versión 2.0
+ * Modales modernos con colores corporativos y mayor usabilidad
+ */
+
+/* ===== VARIABLES CSS PARA MODALES ===== */
+:root {
+    /* Colores corporativos */
+    --modal-primary: #eb0045;
+    --modal-secondary: #404e62;
+    --modal-bg-overlay: rgba(64, 78, 98, 0.85);
+    --modal-bg-content: #ffffff;
+    --modal-text-primary: #2d3748;
+    --modal-text-secondary: #6b7280;
+    --modal-border: #e5e7eb;
+    --modal-shadow: 0 25px 60px rgba(64, 78, 98, 0.4);
+    --modal-radius: 16px;
+    --modal-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== MODAL BASE - REDISEÑADO ===== */
+
+/* Overlay del modal */
+#modal-notificacion,
+#modal-ver-notificacion {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--modal-bg-overlay);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: var(--modal-transition);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Estado visible */
+#modal-notificacion.show,
+#modal-ver-notificacion.show {
+    display: flex !important;
+    opacity: 1;
+}
+
+/* Modal de edición siempre encima */
+#modal-notificacion.show {
+    z-index: 10001 !important;
+}
+
+/* ===== CONTENIDO DEL MODAL - REDISEÑADO ===== */
+
+#modal-notificacion .modal-content,
+#modal-ver-notificacion .modal-content {
+    background: var(--modal-bg-content);
+    border-radius: var(--modal-radius);
+    box-shadow: var(--modal-shadow);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px; /* Aumentado considerablemente */
+    max-height: 95vh;
+    transform: scale(0.9) translateY(20px);
+    transition: var(--modal-transition);
+    border: 1px solid var(--modal-border);
+}
+
+/* Animación de aparición */
+#modal-notificacion.show .modal-content,
+#modal-ver-notificacion.show .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+/* Modal grande específico */
+.modal-content.modal-large {
+    max-width: 1400px; /* Aún más grande */
+    width: 98%;
+    min-height: 600px;
+}
+
+/* ===== HEADER DEL MODAL - MEJORADO ===== */
+
+#modal-notificacion .modal-header,
+#modal-ver-notificacion .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    background: var(--modal-secondary); /* Mantengo el color original */
+    color: white;
+    border-bottom: 3px solid var(--modal-primary);
+    position: relative;
+    min-height: 80px;
+}
+
+/* Efecto sutil de gradiente en el header */
+#modal-notificacion .modal-header::before,
+#modal-ver-notificacion .modal-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--modal-secondary) 0%, rgba(64, 78, 98, 0.9) 100%);
+    z-index: 0;
+}
+
+#modal-notificacion .modal-header > *,
+#modal-ver-notificacion .modal-header > * {
+    position: relative;
+    z-index: 1;
+}
+
+#modal-notificacion .modal-header h2,
+#modal-ver-notificacion .modal-header h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.025em;
+}
+
+#modal-notificacion .modal-header h2 i,
+#modal-ver-notificacion .modal-header h2 i {
+    color: white;
+    font-size: 1.4rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+/* Botón de cerrar rediseñado */
+#modal-notificacion .modal-close,
+#modal-ver-notificacion .modal-close {
+    background: rgba(235, 0, 69, 0.1);
+    border: 2px solid rgba(235, 0, 69, 0.3);
+    color: var(--modal-primary);
+    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--modal-transition);
+    position: relative;
+    z-index: 2;
+}
+
+#modal-notificacion .modal-close:hover,
+#modal-ver-notificacion .modal-close:hover {
+    background: var(--modal-primary);
+    color: white;
+    transform: scale(1.1);
+    border-color: var(--modal-primary);
+}
+
+#modal-notificacion .modal-close:active,
+#modal-ver-notificacion .modal-close:active {
+    transform: scale(0.95);
+}
+
+/* ===== BODY DEL MODAL - REDISEÑADO ===== */
+
+#modal-notificacion .modal-body,
+#modal-ver-notificacion .modal-body {
+    padding: 32px 40px;
+    overflow-y: auto;
+    flex: 1;
+    background: white;
+    max-height: calc(95vh - 160px); /* Más espacio vertical */
+}
+
+/* Scroll personalizado */
+#modal-notificacion .modal-body::-webkit-scrollbar,
+#modal-ver-notificacion .modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+#modal-notificacion .modal-body::-webkit-scrollbar-track,
+#modal-ver-notificacion .modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#modal-notificacion .modal-body::-webkit-scrollbar-thumb,
+#modal-ver-notificacion .modal-body::-webkit-scrollbar-thumb {
+    background: var(--modal-primary);
+    border-radius: 4px;
+}
+
+#modal-notificacion .modal-body::-webkit-scrollbar-thumb:hover,
+#modal-ver-notificacion .modal-body::-webkit-scrollbar-thumb:hover {
+    background: #d1003a;
+}
+
+/* ===== SISTEMA DE FORMULARIOS - REDISEÑADO ===== */
+
+/* Contenedor de formulario */
+#modal-notificacion form,
+#modal-ver-notificacion form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Filas de formulario */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.form-row.single {
+    grid-template-columns: 1fr;
+}
+
+/* Sección especial para usuarios específicos que ocupe toda la fila */
+.form-row.usuarios-especificos {
+    grid-template-columns: 1fr;
+    margin-top: 8px;
+}
+
+/* Grupos de formulario */
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form-group label,
+.form-group .form-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: var(--modal-text-primary);
+    margin-bottom: 8px;
+    font-size: 15px;
+    letter-spacing: -0.025em;
+}
+
+.form-group label i,
+.form-group .form-label i {
+    color: var(--modal-primary);
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Campos de entrada rediseñados */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="file"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: var(--modal-transition);
+    background: white;
+    color: var(--modal-text-primary);
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--modal-primary);
+    box-shadow: 0 0 0 4px rgba(235, 0, 69, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-group input:hover,
+.form-group textarea:hover,
+.form-group select:hover {
+    border-color: var(--modal-secondary);
+}
+
+/* Textarea específico */
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+/* Select específico */
+.form-group select {
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23eb0045" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 12px;
+    padding-right: 44px;
+    appearance: none;
+}
+
+/* Texto de ayuda */
+.form-help {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--modal-text-secondary);
+    font-style: italic;
+}
+
+/* Estados de validación */
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.form-group input.success,
+.form-group textarea.success,
+.form-group select.success {
+    border-color: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+/* ===== SISTEMA DE CHECKBOXES ===== */
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    transition: var(--modal-transition);
+    background: white;
+    font-weight: 500;
+    color: var(--modal-text-primary);
+}
+
+.checkbox-label:hover {
+    border-color: var(--modal-secondary);
+    background: #f9fafb;
+}
+
+.checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
+    position: relative;
+    transition: var(--modal-transition);
+    flex-shrink: 0;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark {
+    background: var(--modal-primary);
+    border-color: var(--modal-primary);
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ===== SISTEMA DE ARCHIVOS - REDISEÑADO ===== */
+
+.file-upload-container {
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    transition: var(--modal-transition);
+    background: white;
+    position: relative;
+    cursor: pointer;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-upload-container:hover {
+    border-color: var(--modal-primary);
+    background: rgba(235, 0, 69, 0.02);
+}
+
+/* Ocultar el input file nativo SOLO dentro del file-upload-container */
+.file-upload-container input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Área de drop personalizada */
+.file-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.file-upload-icon {
+    font-size: 2rem;
+    color: var(--modal-primary);
+    margin-bottom: 8px;
+}
+
+.file-upload-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--modal-text-primary);
+    margin-bottom: 4px;
+}
+
+.file-upload-subtext {
+    font-size: 14px;
+    color: var(--modal-text-secondary);
+}
+
+.file-upload-info p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: var(--modal-text-secondary);
+}
+
+.file-upload-info p:first-child {
+    color: var(--modal-text-primary);
+    font-weight: 500;
+    margin-top: 12px;
+}
+
+/* Estado cuando hay un archivo seleccionado */
+.file-upload-container.has-file {
+    border-color: var(--modal-primary);
+    background: rgba(235, 0, 69, 0.05);
+}
+
+.file-upload-container.has-file .file-upload-icon {
+    color: #10b981;
+}
+
+.file-upload-container.has-file .file-upload-text {
+    color: #10b981;
+}
+
+/* ===== FOOTER DEL MODAL - REDISEÑADO ===== */
+
+#modal-notificacion .modal-footer,
+#modal-ver-notificacion .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 40px;
+    background: white;
+    border-top: 2px solid #f3f4f6;
+    position: relative;
+}
+
+/* Efecto sutil de sombra hacia arriba */
+#modal-notificacion .modal-footer::before,
+#modal-ver-notificacion .modal-footer::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.05));
+    pointer-events: none;
+}
+
+/* Botones rediseñados */
+.btn-secondary,
+.btn-primary {
+    padding: 12px 24px;
+    border: 2px solid;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--modal-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    min-width: 120px;
+    justify-content: center;
+    font-family: inherit;
+}
+
+/* Botón secundario */
+.btn-secondary {
+    background: white;
+    color: var(--modal-text-primary);
+    border-color: #d1d5db;
+}
+
+.btn-secondary:hover {
+    background: #f9fafb;
+    border-color: var(--modal-secondary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón primario */
+.btn-primary {
+    background: var(--modal-primary);
+    color: white;
+    border-color: var(--modal-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    background: #d1003a;
+    border-color: #d1003a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(235, 0, 69, 0.3);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* Estados de carga */
+.btn-primary:disabled,
+.btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Iconos en botones */
+.btn-primary i,
+.btn-secondary i {
+    font-size: 14px;
+}
+
+/* ===== USUARIOS ESPECÍFICOS ===== */
+
+.usuarios-selector-container {
+    border: 2px solid var(--modal-border);
+    border-radius: 12px;
+    background: white;
+    padding: 24px;
+    margin-top: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.usuarios-search {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.usuarios-search input {
+    width: 100%;
+    padding: 14px 45px 14px 18px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: var(--modal-transition);
+    background: #f9fafb;
+}
+
+.usuarios-search input:focus {
+    outline: none;
+    border-color: var(--modal-primary);
+    box-shadow: 0 0 0 3px rgba(235, 0, 69, 0.1);
+    background: white;
+}
+
+.usuarios-search i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--modal-text-secondary);
+    font-size: 16px;
+}
+
+.usuarios-lista {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #f3f4f6;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.usuario-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #f3f4f6;
+    transition: var(--modal-transition);
+    cursor: pointer;
+}
+
+.usuario-item:last-child {
+    border-bottom: none;
+}
+
+.usuario-item:hover {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.usuario-item input[type="checkbox"] {
+    margin-right: 12px;
+    transform: scale(1.2);
+}
+
+.usuario-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+}
+
+.usuario-info {
+    flex: 1;
+}
+
+.usuario-nombre {
+    font-weight: 600;
+    color: var(--modal-text-primary);
+    margin-bottom: 2px;
+}
+
+.usuario-email {
+    font-size: 13px;
+    color: var(--modal-text-secondary);
+}
+
+.usuario-cargo {
+    font-size: 12px;
+    color: var(--modal-text-secondary);
+    font-style: italic;
+}
+
+.usuario-rol {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.usuario-rol.admin {
+    background: rgba(235, 0, 69, 0.1);
+    color: var(--modal-primary);
+}
+
+.usuario-rol.usuario {
+    background: rgba(64, 78, 98, 0.1);
+    color: var(--modal-secondary);
+}
+
+.usuarios-seleccionados {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+}
+
+/* Estados especiales */
+.usuarios-loading,
+.usuarios-error,
+.usuarios-empty {
+    padding: 20px;
+    text-align: center;
+    color: var(--modal-text-secondary);
+}
+
+.usuarios-loading i {
+    margin-right: 8px;
+    color: var(--modal-primary);
+}
+
+.usuarios-error {
+    color: #dc2626;
+}
+
+/* ===== RESPONSIVE DESIGN - REDISEÑADO ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    #modal-notificacion .modal-content,
+    #modal-ver-notificacion .modal-content {
+        max-width: 95%;
+        margin: 20px;
+    }
+    
+    .modal-content.modal-large {
+        max-width: 100%;
+        width: 95%;
+    }
+    
+    #modal-notificacion .modal-body,
+    #modal-ver-notificacion .modal-body {
+        padding: 24px 28px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+/* Móviles */
+@media (max-width: 768px) {
+    #modal-notificacion,
+    #modal-ver-notificacion {
+        padding: 10px;
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+    
+    #modal-notificacion .modal-content,
+    #modal-ver-notificacion .modal-content {
+        max-width: 100%;
+        width: 100%;
+        max-height: calc(100vh - 40px);
+        margin: 0;
+        border-radius: 12px;
+    }
+    
+    #modal-notificacion .modal-header,
+    #modal-ver-notificacion .modal-header {
+        padding: 20px 24px;
+        min-height: 70px;
+    }
+    
+    #modal-notificacion .modal-header h2,
+    #modal-ver-notificacion .modal-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    #modal-notificacion .modal-body,
+    #modal-ver-notificacion .modal-body {
+        padding: 20px 24px;
+    }
+    
+    #modal-notificacion .modal-footer,
+    #modal-ver-notificacion .modal-footer {
+        padding: 20px 24px;
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        font-size: 16px; /* Evita zoom en iOS */
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    #modal-notificacion .modal-header h2,
+    #modal-ver-notificacion .modal-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    #modal-notificacion .modal-body,
+    #modal-ver-notificacion .modal-body {
+        padding: 16px 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+}
+
+/* ===== ANIMACIONES Y EFECTOS ===== */
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+}
+
+/* Aplicar animaciones */
+.modal-content {
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+.modal-content.closing {
+    animation: modalFadeOut 0.3s ease-out;
+}
+
+/* ===== ACCESIBILIDAD ===== */
+
+/* Focus visible mejorado */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--modal-primary);
+    outline-offset: 2px;
+}
+
+/* Reducir movimiento para usuarios con sensibilidad */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== SWEETALERT2 - ESTILOS CORPORATIVOS ===== */
+
+/* Botón de confirmación - Solo hover cambia el color */
+.swal2-confirm:hover,
+.swal2-styled.swal2-confirm:hover {
+    background-color: #404e62 !important;
+}
+
+/* Quitar bordes y outlines en todos los estados */
+.swal2-confirm,
+.swal2-styled.swal2-confirm,
+.swal2-confirm:focus,
+.swal2-styled.swal2-confirm:focus,
+.swal2-confirm:active,
+.swal2-styled.swal2-confirm:active {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Botón de cancelar */
+.swal2-cancel:hover,
+.swal2-styled.swal2-cancel:hover {
+    background-color: #404e62 !important;
+}
+
+.swal2-cancel,
+.swal2-styled.swal2-cancel,
+.swal2-cancel:focus,
+.swal2-styled.swal2-cancel:focus {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Botón de denegar */
+.swal2-deny:hover,
+.swal2-styled.swal2-deny:hover {
+    background-color: #b91c1c !important;
+}
+
+.swal2-deny,
+.swal2-styled.swal2-deny,
+.swal2-deny:focus,
+.swal2-styled.swal2-deny:focus {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}

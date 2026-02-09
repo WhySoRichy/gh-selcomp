@@ -1,0 +1,563 @@
+/* ==============================================
+   ESTILOS ESPECÍFICOS PARA EL PORTAL DE USUARIO
+   ============================================== */
+
+* {
+  font-family: 'Montserrat', Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* ===== TOPBAR USUARIO ===== */
+.main-topbar {
+  width: 100vw;
+  height: 80px;
+  background: linear-gradient(135deg, #eb0045, #eb0045);
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.15);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.topbar-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex: 1;
+  margin-left: 200px; /* Compensa el espacio del logo */
+  background: #eb0045;
+}
+
+.topbar-logo {
+  width: 160px;
+  height: 55px;
+  object-fit: contain;
+  background: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.topbar-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ===== DROPDOWN USUARIO ===== */
+.topbar-user {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.topbar-user .dropdown-toggle {
+  background: #404e62;
+  border: 2px solid rgb(64 78 98);
+  border-radius: 50px;
+  cursor: pointer;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.topbar-user .dropdown-toggle:hover {
+  background: #4C596B;
+  border-color: #4C596B;
+}
+
+.topbar-user .dropdown-toggle img {
+  width: 15px;
+  height: 20px;
+  border-radius: 20%;
+  object-fit: cover;
+}
+
+.topbar-user .dropdown-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.topbar-user .dropdown-toggle:hover::after {
+  width: 100%;
+  height: 100%;
+}
+
+.topbar-user .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  min-width: 180px;
+  z-index: 9999;
+  overflow: hidden;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.topbar-user .dropdown-menu.show {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+
+.topbar-user.open .dropdown-menu {
+  display: flex;
+}
+
+.topbar-user .dropdown-menu a {
+  display: block;
+  color: #333;
+  padding: 12px 20px;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.topbar-user .dropdown-menu a:hover {
+  background: #f7f7f7;
+  color: #eb0045;
+}
+
+.topbar-user .dropdown-menu a:last-child {
+  color: #eb0045;
+  font-weight: bold;
+}
+
+/* ===== LAYOUT GENERAL USUARIO ===== */
+.layout-admin {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  background: #f7f7f7;
+}
+
+/* ===== SIDEBAR LATERAL USUARIO ===== */
+.sidebar-navbar {
+  width: 200px;
+  min-width: 180px;
+  max-width: 260px;
+  background: linear-gradient(180deg, #2d3748, #4a5568);
+  border-right: 1px solid #4a5568;
+  box-shadow: 4px 0 20px rgba(45, 55, 72, 0.15);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  bottom: 0;
+  z-index: 20;
+  overflow-y: auto;
+  padding-top: 20px; /* Espacio superior para separar del topbar */
+}
+
+.user-details {
+  width: 100%;
+  text-align: center;
+}
+
+.user-details p {
+  margin: 0;
+  color: #dbeafe;
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.18;
+  letter-spacing: 0.5px;
+}
+
+.user-details span {
+  color: #93c5fd;
+  font-size: 0.9em;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* ===== FOOTER DEL SIDEBAR ===== */
+.sidebar-footer {
+  margin-top: auto; /* Empuja el footer hacia abajo */
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== INFORMACIÓN USUARIO EN SIDEBAR ===== */
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 7px;
+  padding: 12px 18px;
+  background: #536072;
+  border-radius: 13px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== BOTÓN ATRÁS USUARIO ===== */
+.back-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: calc(100% - 14px);
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #eb0045;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(235, 0, 69, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ===== MENÚ LATERAL USUARIO ===== */
+.sidebar-menu {
+  padding: 20px 8px 8px 8px; /* Más padding-top para separar del logo */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  flex: 1; /* Ocupa el espacio disponible */
+}
+
+/* ===== BOTONES MENÚ USUARIO (TODOS IGUALES) ===== */
+.sidebar-navbar .inicio-btn,
+.sidebar-navbar .menu-btn,
+.sidebar-navbar .submenu-btn {
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  text-align: left !important;
+  margin-bottom: 4px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  letter-spacing: 0.3px !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Asegurar que el botón inicio tenga los mismos estilos que los demás */
+.sidebar-navbar .sidebar-menu .inicio-btn {
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  text-align: left !important;
+  margin-bottom: 4px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  letter-spacing: 0.3px !important;
+}
+
+.sidebar-navbar .inicio-btn:hover,
+.sidebar-navbar .menu-btn:hover,
+.sidebar-navbar .submenu-btn:hover {
+  background: linear-gradient(135deg, #eb0045, #eb0045) !important;
+  color: #ffffff !important;
+  border-color: #eb0045 !important;
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3) !important;
+}
+
+.sidebar-navbar .sidebar-menu .inicio-btn:hover {
+  background: linear-gradient(135deg, #eb0045, #eb0045) !important;
+  color: #ffffff !important;
+  border-color: #eb0045 !important;
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3) !important;
+}
+
+/* ===== SUBMENÚS USUARIO ===== */
+.submenu {
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 4px;
+  margin-left: 8px;
+}
+
+.menu-btn.active + .submenu,
+.menu-btn[aria-expanded="true"] + .submenu {
+  display: flex;
+}
+
+/* ===== CONTENIDO PRINCIPAL USUARIO ===== */
+.contenido-principal {
+  flex: 1;
+  padding: 20px 34px;
+  margin-left: 200px;
+  margin-top: 80px;
+  background: transparent;
+  overflow-x: auto;
+  min-height: calc(100vh - 80px);
+}
+
+/* ===== LOADING STATES ===== */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #eb0045;
+  border-radius: 50%;
+}
+
+.loading-text {
+  margin-top: 10px;
+  color: #eb0045;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Hover effects mejorados para botones */
+.sidebar-navbar .inicio-btn,
+.sidebar-navbar .menu-btn,
+.sidebar-navbar .submenu-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-navbar .inicio-btn::before,
+.sidebar-navbar .menu-btn::before,
+/* Botones activos */
+.sidebar-navbar .inicio-btn.active,
+.sidebar-navbar .menu-btn.active {
+  background: linear-gradient(135deg, #eb0045, #eb0045) !important;
+  color: #ffffff !important;
+  border-color: #eb0045 !important;
+}
+
+/* Mejoras en la topbar */
+.main-topbar {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.topbar-user .dropdown-toggle {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== BREADCRUMBS NUEVOS ===== */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.breadcrumbs a {
+  color: #eb0045;
+  text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+  color: #eb0045;
+}
+
+.breadcrumbs .separator {
+  color: #d1d5db;
+  font-weight: bold;
+}
+
+.breadcrumbs .current {
+  color: #374151;
+  font-weight: 500;
+}
+
+/* ===== NOTIFICACIONES BADGE ===== */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #eb0045;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+/* ===== TOAST NOTIFICATIONS ===== */
+.toast-container {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+  max-width: 300px;
+  border-left: 4px solid #eb0045;
+}
+
+.toast.success {
+  border-left-color: #10b981;
+}
+
+.toast.warning {
+  border-left-color: #f59e0b;
+}
+
+.toast.error {
+  border-left-color: #eb0045;
+}
+
+/* ===== SCROLLBAR PERSONALIZADO ===== */
+::-webkit-scrollbar {
+  width: 7px;
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ececec;
+  border-radius: 10px;
+}
+
+/* ===== IMÁGENES RESPONSIVAS ===== */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== REGLA FINAL PARA ASEGURAR UNIFORMIDAD DE BOTONES ===== */
+.sidebar-navbar button.inicio-btn,
+.sidebar-navbar button.menu-btn,
+.sidebar-navbar button.submenu-btn {
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  text-align: left !important;
+  margin-bottom: 4px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  letter-spacing: 0.3px !important;
+}
+
+.sidebar-navbar button.inicio-btn:hover,
+.sidebar-navbar button.menu-btn:hover,
+.sidebar-navbar button.submenu-btn:hover {
+  background: linear-gradient(135deg, #eb0045, #eb0045) !important;
+  color: #ffffff !important;
+  border-color: #eb0045 !important;
+  box-shadow: 0 8px 25px #eb0045 !important;
+}
+
+/* ===== IMÁGENES ESPECÍFICAS USUARIO ===== */
+.dashboard-logo {
+  width: 100vw;
+  max-width: 600px;
+  min-width: 200px;
+  margin: 30px auto 10px auto;
+  display: block;
+}
+
+.topbar-dropdown .dropdown-toggle img {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+.card-app img {
+  width: 158px;
+  height: auto;
+  margin-top: 12px;
+}

@@ -1,0 +1,139 @@
+body {
+    background: #f7f7f7 url("../Img/Fondo.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Montserrat', Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    width: 340px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    padding: 36px 32px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 300px;
+    margin-bottom: 18px;
+}
+
+.login-card h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #d1164c;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.login-card h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.login-card input[type="email"],
+.login-card input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    border: none;
+    background: #e5e5e5;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #222;
+    box-sizing: border-box;
+}
+
+.login-card input[type="email"]:focus,
+.login-card input[type="password"]:focus {
+    outline: 2px solid #d1164c;
+    background: #f3e6ea;
+}
+
+.forgot {
+    font-size: 0.95rem;
+    color: #888;
+    text-align: right;
+    display: block;
+    margin-bottom: 18px;
+    text-decoration: none;
+}
+
+.forgot:hover {
+    color: #d1164c;
+    text-decoration: underline;
+}
+
+.btn {
+    width: 100%;
+    background: #d1164c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 6px rgba(209,22,76,0.08);
+}
+
+.btn:hover {
+    background: #b01341;
+}
+
+/* Sección de enlaces secundarios (Volver al inicio, etc.) */
+.postulacion-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.postulacion-text {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.postulacion-link {
+    color: #d1164c;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.postulacion-link:hover {
+    color: #b01341;
+    text-decoration: underline;
+}
+
+.contenedor-cards { /* the element was .contenedor-cards */
+  margin-top: 20px;
+}
+
+/* Responsive para móvil */
+@media (max-width: 600px) {
+    .login-card {
+        width: 97vw;
+        max-width: 350px;
+        padding: 20px 7px 15px 7px;
+    }
+    .logo {
+        width: 90vw;
+        max-width: 240px;
+    }
+    body {
+        padding: 8px;
+    }
+}

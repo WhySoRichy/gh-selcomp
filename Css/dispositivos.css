@@ -1,0 +1,112 @@
+/**
+ * Estilos específicos para dispositivos en historial de accesos
+ */
+.dispositivo-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dispositivo-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.dispositivo-icon i {
+    font-size: 16px;
+    color: #64748b;
+}
+
+.dispositivo-icon.windows {
+    background-color: #0078d7;
+}
+
+.dispositivo-icon.windows i {
+    color: white;
+}
+
+.dispositivo-icon.apple {
+    background-color: #333;
+}
+
+.dispositivo-icon.apple i {
+    color: white;
+}
+
+.dispositivo-icon.android {
+    background-color: #3ddc84;
+}
+
+.dispositivo-icon.android i {
+    color: white;
+}
+
+.dispositivo-icon.linux {
+    background-color: #f7df1e;
+}
+
+.dispositivo-icon.linux i {
+    color: #333;
+}
+
+.dispositivo-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.dispositivo-name {
+    font-weight: 600;
+    color: #334155;
+    font-size: 14px;
+}
+
+.dispositivo-browser {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Tooltip mejorado */
+.tooltip {
+    position: absolute;
+    background-color: #334155;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    max-width: 300px;
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 15px;
+    border-width: 0 8px 8px;
+    border-style: solid;
+    border-color: transparent transparent #334155;
+}
+
+/* Para dispositivos pequeños */
+@media (max-width: 768px) {
+    .dispositivo-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .dispositivo-name {
+        font-size: 13px;
+    }
+    
+    .dispositivo-browser {
+        display: none;
+    }
+}

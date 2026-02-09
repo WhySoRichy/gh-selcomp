@@ -1,0 +1,539 @@
+/* Estilos específicos para el dashboard de usuarios */
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 0;
+}
+
+/* Cards del dashboard */
+.dashboard-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    border-top: 4px solid #4C596B;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(220, 38, 38, 0.15);
+    border-color: #eb0045;
+}
+
+/* Header de las cards */
+.card-header {
+    padding: 2.5rem 2rem 1.5rem;
+    background: linear-gradient(135deg, #fafafa, #f4f4f5);
+    border-bottom: 1px solid #e2e8f0;
+    text-align: center;
+    position: relative;
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #eb0045, #eb0045);
+    border-radius: 2px;
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #4C596B, #4C596B);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 6px 20px #4C596B;
+    position: relative;
+}
+
+.card-icon::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.dashboard-card:hover .card-icon::before {
+    opacity: 1;
+}
+
+.card-icon i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #4C596B;
+    letter-spacing: 0.5px;
+}
+
+/* Contenido de las cards */
+.card-content {
+    padding: 2rem;
+}
+
+.card-content p {
+    margin: 0 0 1.5rem;
+    color: #6b7280;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Botones de las cards */
+.btn-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #eb0045, #eb0045);
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-card:hover {
+    background: linear-gradient(135deg, #4C596B, #4C596B);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px #4C596B;
+}
+
+.btn-card i {
+    font-size: 0.9rem;
+}
+
+/* Efectos especiales */
+.dashboard-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #eb0045, #b91c1c, #eb0045);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .card-header,
+    .card-content {
+        padding: 1.5rem;
+    }
+    
+    .card-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .card-icon i {
+        font-size: 1.5rem;
+    }
+}
+
+/* Animaciones de entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+.dashboard-card:nth-child(3) { animation-delay: 0.3s; }
+.dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+.dashboard-card:nth-child(5) { animation-delay: 0.5s; }
+.dashboard-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Estilo para la navbar de usuario */
+.navbar .brand-text {
+    color: #eb0045;
+    font-weight: 600;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+/* Dropdown del usuario */
+.user-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e2e8f0;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #374151;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: #f9fafb;
+    color: #eb0045;
+}
+
+.dropdown-item.logout {
+    color: #eb0045;
+    border-top: 1px solid #e2e8f0;
+}
+
+.dropdown-item.logout:hover {
+    background: #fef2f2;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 0.5rem 0;
+}
+
+/* Estilos específicos para el portal de usuario */
+
+/* Diferenciar navbar de usuario */
+.layout-admin .main-topbar {
+    background: linear-gradient(135deg, #eb0045, #b91c1c);
+}
+
+.layout-admin .topbar-title {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+/* Sidebar específico para usuario */
+.layout-admin .sidebar-navbar {
+    background: #404e62;
+    border-right: 1px solid #4C596B;
+}
+
+.layout-admin .menu-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    padding: 14px 20px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 4px 8px;
+    width: calc(100% - 16px);
+}
+
+.layout-admin .menu-btn:hover {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    transform: translateX(5px);
+}
+
+/* Usuario en sidebar */
+.layout-admin .sidebar-user {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px 16px;
+    margin: auto 0 0 0;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.layout-admin .user-details p {
+    color: #dbeafe;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.layout-admin .user-details span {
+    color: #93c5fd;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.layout-admin .back-btn {
+    background: rgba(220, 38, 38, 0.15);
+    border: 1px solid #eb0045;
+    color: #eb0045;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 70px;
+    text-align: center;
+}
+
+.layout-admin .back-btn:hover {
+    background: #eb0045;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Dropdown específico para usuario */
+.layout-admin .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e5e7eb;
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.layout-admin .dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.layout-admin .dropdown-menu a {
+    display: block;
+    padding: 12px 16px;
+    color: #374151;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.layout-admin .dropdown-menu a:hover {
+    background: #f9fafb;
+    color: #eb0045;
+}
+
+.layout-admin .dropdown-menu a:last-child {
+    border-top: 1px solid #e5e7eb;
+    color: #eb0045;
+}
+
+.layout-admin .dropdown-menu a:last-child:hover {
+    background: #fef2f2;
+}
+
+/* Ajuste del contenido principal */
+.contenido-principal {
+    padding-top: 0 !important;
+    margin-top: 0;
+    min-height: calc(100vh - 70px);
+    background: #f8fafc;
+}
+
+/* ===== RESPONSIVE DASHBOARD MEJORADO ===== */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.2rem;
+    }
+    
+    .dashboard-container {
+        padding: 0.8rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .dashboard-container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    
+    .dashboard-card {
+        border-radius: 12px;
+    }
+    
+    .card-header {
+        padding: 2rem 1.5rem 1.2rem;
+    }
+    
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .card-description {
+        font-size: 0.85rem;
+    }
+    
+    .card-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-container {
+        padding: 0.8rem 0.3rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .dashboard-card {
+        border-radius: 10px;
+        margin: 0 0.2rem;
+    }
+    
+    .card-header {
+        padding: 1.8rem 1.2rem 1rem;
+    }
+    
+    .card-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+    
+    .card-title {
+        font-size: 1rem;
+        margin: 0.8rem 0 0.5rem;
+    }
+    
+    .card-description {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+    
+    .card-content {
+        padding: 1.2rem;
+    }
+    
+    .card-button {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        padding: 0.5rem 0.2rem;
+    }
+    
+    .dashboard-grid {
+        gap: 0.6rem;
+    }
+    
+    .card-header {
+        padding: 1.5rem 1rem 0.8rem;
+    }
+    
+    .card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    
+    .card-title {
+        font-size: 0.95rem;
+        margin: 0.6rem 0 0.4rem;
+    }
+    
+    .card-description {
+        font-size: 0.75rem;
+    }
+    
+    .card-content {
+        padding: 1rem;
+    }
+    
+    .card-button {
+        padding: 7px 14px;
+        font-size: 0.8rem;
+    }
+}

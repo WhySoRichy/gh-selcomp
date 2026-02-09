@@ -1,0 +1,93 @@
+/* ====== inicio.css ====== */
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.dashboard-logo {
+  max-width: 220px;
+  max-height: 120px;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto 24px auto;
+  object-fit: contain;
+}
+
+.dashboard-cards {
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 70px;
+}
+
+.card-app {
+    background: #fff;
+    border: 2px solid #232E40;
+    border-radius: 22px;
+    box-shadow: 0 4px 16px rgba(235,0,69,0.08);
+    padding: 28px 32px 26px 32px;
+    min-width: 290px;
+    max-width: 330px;
+    text-align: center;
+    transition: box-shadow 0.18s, transform 0.17s;
+    position: relative;
+}
+
+.card-app:hover {
+    box-shadow: 0 8px 34px #4C596B;
+    transform: translateY(-4px) scale(1.02);
+}
+
+.card-app h2 {
+    color: #404E62;
+    font-weight: 700;
+    margin-bottom: 0.45em;
+    font-size: 1.18em;
+}
+
+.card-app p {
+    color: #000;
+    font-size: 1.07em;
+    margin-bottom: 17px;
+}
+
+.card-app .btn-ingresar {
+    background: #232E40;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 15px;
+    padding: 11px 33px;
+    margin-bottom: 16px;
+    font-size: 1.12em;
+    cursor: pointer;
+    transition: background 0.18s;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+.card-app .btn-ingresar:hover {
+    background: #eb0045;
+}
+
+.card-app img {
+    width: 158px;
+    height: auto;
+    margin-top: 12px;
+}
+
+@media (max-width: 950px) {
+    .dashboard-logo { width: 90vw; }
+    .dashboard-cards { flex-direction: column; align-items: center; gap: 22px; }
+    .card-app { min-width: 83vw; max-width: 99vw; }
+}
+
+/* Extra: mejora scroll y evita que se vea "pegado" si sidebar/topbar son fijos */
+body {
+    background: #f7f7f7;
+}

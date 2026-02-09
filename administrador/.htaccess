@@ -1,0 +1,50 @@
+# Protección contra acceso directo a archivos críticos
+<Files "auth.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "csrf_protection.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "navegacion.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "proteccion_componentes.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Proteger archivos de configuración
+<Files "*.conf">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Proteger archivos de backup
+<Files "*.bak">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Proteger archivos temporales
+<Files "*.tmp">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Prevenir browsing de directorios
+Options -Indexes
+
+# Proteger contra ataques de referrer maliciosos
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?localhost [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?127\.0\.0\.1 [NC]
+RewriteCond %{REQUEST_URI} \.(php)$ [NC]
+RewriteCond %{REQUEST_URI} !^/gh/index\.php$ [NC]
+RewriteCond %{REQUEST_URI} !^/gh/postulacion\.php$ [NC]
+RewriteRule ^(.*)$ /gh/index.php [R=403,L]

@@ -1,0 +1,68 @@
+# CONFIGURACIÓN DE SEGURIDAD
+# Este archivo debe ser colocado en la raíz del proyecto para mayor seguridad
+
+# Proteger archivos de configuración
+<Files "*.config">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Proteger archivos de desarrollo
+<Files "test_*.php">
+    Order allow,deny  
+    Deny from all
+</Files>
+
+<Files "debug_*.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Proteger archivos de respaldo
+<Files "*.bak">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.backup">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Proteger archivos sensibles
+<Files "gestionhumana.sql">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files ".env">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files ".env.*">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Proteger carpeta vendor
+<Files "vendor/*">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Proteger archivos de configuración de composer
+<Files "composer.json">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "composer.lock">
+    Order allow,deny
+    Deny from all
+</Files>
