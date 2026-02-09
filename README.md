@@ -364,18 +364,29 @@ Los datos se exportan automáticamente a `Documentos/Recursos/Prospectos.xlsx`
 
 ## 👨‍💻 Autor
 
-Desarrollado como proyecto empresarial de gestión de recursos humanos.
+<div align="center">
+
+**Ricardo Hernández**  
+*Desarrollador Web Full Stack*
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://co.linkedin.com/in/ricardoit)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/WhySoRichy)
+
+</div>
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto es privado y su uso está restringido. Código mostrado con fines de portafolio.
+Este proyecto es de código abierto con fines de portafolio profesional.  
+Libre para revisar, estudiar y referenciar.
 
 ---
 
 <div align="center">
 
 **⭐ Si te gusta este proyecto, no olvides dejar una estrella ⭐**
+
+*Gracias por visitar mi portafolio*
 
 </div>
