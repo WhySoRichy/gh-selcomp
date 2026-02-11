@@ -9,15 +9,15 @@
 .env.*
 !.env.example
 
-# Configuración con credenciales
-config.php
+# NOTA: config.php NO contiene credenciales, solo carga .env
+# Por eso está incluido en el repo
 
 # -----------------------------------------------------
 # 📦 DEPENDENCIAS
 # -----------------------------------------------------
 vendor/
 node_modules/
-composer.lock
+# NOTA: composer.lock incluido para reproducibilidad exacta
 
 # Python
 __pycache__/
