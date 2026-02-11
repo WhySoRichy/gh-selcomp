@@ -131,3 +131,7 @@ desktop.ini
 dev_files/
 tests/coverage/
 .phpunit.result.cache
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md
