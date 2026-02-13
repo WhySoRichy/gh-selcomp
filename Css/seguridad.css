@@ -170,7 +170,8 @@
 .card-icon-password,
 .card-icon-history,
 .card-icon-2fa,
-.card-icon-global {
+.card-icon-global,
+.card-icon-mfa {
     background: linear-gradient(135deg, #eb0045, #c4003a) !important;
     box-shadow: 0 6px 20px rgba(235, 0, 69, 0.4) !important;
 }
@@ -178,7 +179,8 @@
 .card-icon-password i,
 .card-icon-history i,
 .card-icon-2fa i,
-.card-icon-global i {
+.card-icon-global i,
+.card-icon-mfa i {
     color: white !important;
 }
 

@@ -59,6 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Reiniciar contador de intentos fallidos
             $proteccion->reiniciarIntentos($email, $ip);
 
+            // ========== 2FA OBLIGATORIO PARA ADMINISTRADORES ==========
+            // Si el usuario es administrador y no tiene 2FA activado, se activa automáticamente
+            if (($usuario['rol'] === 'admin' || $usuario['rol'] === 'administrador') &&
+                (empty($usuario['tiene_2fa']) || $usuario['tiene_2fa'] == 0)) {
+                $stmt_act = $conexion->prepare("UPDATE usuarios SET tiene_2fa = 1 WHERE id = :id");
+                $stmt_act->execute(['id' => $usuario['id']]);
+                $usuario['tiene_2fa'] = 1;
+                $_SESSION['2fa_primer_activacion'] = true; // Flag para mostrar mensaje informativo
+            }
+            // ========== FIN 2FA OBLIGATORIO PARA ADMINISTRADORES ==========
+
             // ========== VERIFICACIÓN 2FA ==========
             if (!empty($usuario['tiene_2fa']) && $usuario['tiene_2fa'] == 1) {
                 // Usuario tiene 2FA activo - generar código y redirigir

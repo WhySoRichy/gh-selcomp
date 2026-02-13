@@ -29,6 +29,8 @@ if (isset($_SESSION['2fa_pendiente_time'])) {
         unset($_SESSION['2fa_usuario_id']);
         unset($_SESSION['2fa_email_parcial']);
         unset($_SESSION['2fa_pendiente_time']);
+        unset($_SESSION['2fa_ultimo_reenvio']);
+        unset($_SESSION['2fa_primer_activacion']);
         $_SESSION['titulo'] = 'Sesión expirada';
         $_SESSION['mensaje'] = 'El tiempo para verificar el código ha expirado. Por favor inicia sesión nuevamente.';
         $_SESSION['tipo_alerta'] = 'warning';
@@ -95,6 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     unset($_SESSION['2fa_pendiente']);
                     unset($_SESSION['2fa_usuario_id']);
                     unset($_SESSION['2fa_email_parcial']);
+                    unset($_SESSION['2fa_pendiente_time']);
+                    unset($_SESSION['2fa_ultimo_reenvio']);
+                    unset($_SESSION['2fa_primer_activacion']);
 
                     // Regenerar ID de sesión
                     session_regenerate_id(true);
@@ -128,6 +133,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     unset($_SESSION['2fa_pendiente']);
                     unset($_SESSION['2fa_usuario_id']);
                     unset($_SESSION['2fa_email_parcial']);
+                    unset($_SESSION['2fa_pendiente_time']);
+                    unset($_SESSION['2fa_ultimo_reenvio']);
+                    unset($_SESSION['2fa_primer_activacion']);
                 }
             } else {
                 // Código incorrecto, incrementar intentos
@@ -236,6 +244,9 @@ if (isset($_GET['reenviar']) && $_GET['reenviar'] === '1') {
 
 $mensaje_exito = $_SESSION['2fa_mensaje'] ?? '';
 unset($_SESSION['2fa_mensaje']);
+
+$primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
+// No se elimina aquí; se limpia al completar la verificación exitosa
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -403,6 +414,13 @@ unset($_SESSION['2fa_mensaje']);
             Hemos enviado un código de 6 dígitos a<br>
             <strong><?php echo htmlspecialchars($email_parcial); ?></strong>
         </p>
+
+        <?php if ($primer_activacion): ?>
+            <div class="success-msg" style="background: #eef1f5; color: #404e62; border-left: 4px solid #404e62; text-align: left;">
+                <i class="fas fa-info-circle" style="color: #eb0045;"></i> <strong>2FA activado automáticamente.</strong><br>
+                La verificación en dos pasos es obligatoria para cuentas de administrador. A partir de ahora, se te solicitará un código cada vez que inicies sesión.
+            </div>
+        <?php endif; ?>
 
         <?php if ($error): ?>
             <div class="error-msg">

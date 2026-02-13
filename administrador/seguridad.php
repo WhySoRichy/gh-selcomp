@@ -13,18 +13,6 @@ if ($_SESSION['usuario_rol'] !== 'admin' && $_SESSION['usuario_rol'] !== 'admini
     header('Location: ../index.php');
     exit;
 }
-
-// Obtener estado actual de 2FA del usuario
-$tiene_2fa = 0;
-try {
-    $stmt = $conexion->prepare("SELECT tiene_2fa FROM usuarios WHERE id = :id");
-    $stmt->bindParam(':id', $_SESSION['usuario_id'], PDO::PARAM_INT);
-    $stmt->execute();
-    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-    $tiene_2fa = $resultado['tiene_2fa'] ?? 0;
-} catch (PDOException $e) {
-    $tiene_2fa = 0;
-}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -96,34 +84,6 @@ try {
                     </div>
                 </div>
 
-                <!-- Tarjeta de Autenticación 2FA -->
-                <div class="dashboard-card card-2fa <?php echo $tiene_2fa ? 'card-2fa-activo' : ''; ?>">
-                    <div class="card-header">
-                        <div class="card-icon card-icon-2fa">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>Verificación en 2 Pasos</h3>
-                        <?php if ($tiene_2fa): ?>
-                            <span class="badge-activo"><i class="fas fa-check-circle"></i> Activo</span>
-                        <?php endif; ?>
-                    </div>
-                    <div class="card-content">
-                        <?php if ($tiene_2fa): ?>
-                            <p>La verificación en 2 pasos está <strong>activada</strong>. Recibirás un código por email cada vez que inicies sesión.</p>
-                            <a href="#" onclick="toggle2FA(false)" class="btn-card btn-danger">
-                                <i class="fas fa-toggle-off"></i>
-                                Desactivar 2FA
-                            </a>
-                        <?php else: ?>
-                            <p>Añade una capa extra de seguridad. Al activar, recibirás un código por email para verificar tu identidad.</p>
-                            <a href="#" onclick="toggle2FA(true)" class="btn-card btn-success">
-                                <i class="fas fa-toggle-on"></i>
-                                Activar 2FA
-                            </a>
-                        <?php endif; ?>
-                    </div>
-                </div>
-
                 <!-- Tarjeta Historial Global (Solo Admin) -->
                 <div class="dashboard-card">
                     <div class="card-header">
@@ -140,16 +100,25 @@ try {
                         </a>
                     </div>
                 </div>
+
+                <!-- Tarjeta Restablecer MFA -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon card-icon-mfa">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3>Restablecer MFA</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>Restablece la verificación 2FA de cualquier usuario del sistema.</p>
+                        <a href="restablecer_mfa.php" class="btn-card">
+                            <i class="fas fa-undo-alt"></i>
+                            Gestionar MFA
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- Token CSRF oculto para operaciones AJAX (2FA toggle) - Token dedicado -->
-        <?php 
-        $token_2fa = bin2hex(random_bytes(32));
-        $_SESSION['csrf_token_2fa'] = $token_2fa;
-        $_SESSION['csrf_token_2fa_time'] = time();
-        ?>
-        <input type="hidden" id="csrf_token_2fa" value="<?php echo $token_2fa; ?>">
 
         <?php require_once '../mensaje_alerta.php'; ?>
     </main>
@@ -177,95 +146,6 @@ try {
             }
         });
         <?php endif; ?>
-
-        // Toggle 2FA
-        async function toggle2FA(activar) {
-            const accion = activar ? 'activar' : 'desactivar';
-            const titulo = activar ? 'Activar Verificación en 2 Pasos' : 'Desactivar Verificación en 2 Pasos';
-            const mensaje = activar 
-                ? 'Al activar, recibirás un código por email cada vez que inicies sesión. ¿Deseas continuar?'
-                : '¿Estás seguro de desactivar la verificación en 2 pasos? Tu cuenta será menos segura.';
-            const iconoConfirm = activar ? 'question' : 'warning';
-            
-            const confirmacion = await Swal.fire({
-                title: titulo,
-                text: mensaje,
-                icon: iconoConfirm,
-                showCancelButton: true,
-                confirmButtonColor: '#eb0045',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: activar ? 'Sí, activar' : 'Sí, desactivar',
-                cancelButtonText: 'Cancelar'
-            });
-            
-            if (!confirmacion.isConfirmed) {
-                return;
-            }
-            
-            Swal.fire({
-                title: 'Procesando...',
-                text: 'Por favor espera',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-            
-            try {
-                const csrfInput = document.getElementById('csrf_token_2fa');
-                const csrfToken = csrfInput ? csrfInput.value : '';
-                
-                if (!csrfToken) {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Token de seguridad no encontrado. Recarga la página.',
-                        icon: 'error',
-                        confirmButtonText: 'Recargar'
-                    }).then(() => window.location.reload());
-                    return;
-                }
-                
-                const formData = new FormData();
-                formData.append('activar', activar.toString());
-                formData.append('csrf_token', csrfToken);
-                
-                const response = await fetch('toggle_2fa.php', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    await Swal.fire({
-                        title: activar ? '¡Activado!' : 'Desactivado',
-                        text: data.message,
-                        icon: 'success',
-                        confirmButtonText: 'Entendido',
-                        confirmButtonColor: '#eb0045'
-                    });
-                    
-                    window.location.reload();
-                } else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: data.message || 'No se pudo actualizar la configuración',
-                        icon: 'error',
-                        confirmButtonText: 'Entendido'
-                    });
-                }
-            } catch (error) {
-                console.error('Error al toggle 2FA:', error);
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Error de conexión. Por favor intenta nuevamente.',
-                    icon: 'error',
-                    confirmButtonText: 'Entendido'
-                });
-            }
-        }
 
         // Cerrar modal con Escape
         document.addEventListener('keydown', function(e) {

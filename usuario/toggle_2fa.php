@@ -51,6 +51,13 @@ unset($_SESSION['csrf_token_2fa_time']);
 $usuario_id = $_SESSION['usuario_id'];
 $activar = isset($_POST['activar']) && $_POST['activar'] === 'true';
 
+// Defensa en profundidad: bloquear desactivación si el usuario es administrador
+if (!$activar && isset($_SESSION['usuario_rol']) &&
+    ($_SESSION['usuario_rol'] === 'admin' || $_SESSION['usuario_rol'] === 'administrador')) {
+    echo json_encode(['success' => false, 'message' => 'La verificación 2FA es obligatoria para administradores y no puede ser desactivada.']);
+    exit;
+}
+
 try {
     // Verificar que el usuario exista
     $stmt = $conexion->prepare("SELECT id, email, nombre FROM usuarios WHERE id = :id");
