@@ -134,4 +134,8 @@ tests/coverage/
 
 
 #Ignore vscode AI rules
-.github\instructions\codacy.instructions.md
+.github/instructions/
+.github/instructions/*
+
+# Archivos temporales de Word
+~$*
