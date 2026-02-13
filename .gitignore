@@ -28,7 +28,12 @@ env/
 venv/
 
 # -----------------------------------------------------
-# 📁 DOCUMENTOS Y ARCHIVOS DE USUARIOS
+# � MANUALES Y DOCUMENTACIÓN LOCAL
+# -----------------------------------------------------
+MANUALES/
+
+# -----------------------------------------------------
+# �📁 DOCUMENTOS Y ARCHIVOS DE USUARIOS
 # -----------------------------------------------------
 # Hojas de vida y documentos cargados
 Documentos/Postulaciones/*
