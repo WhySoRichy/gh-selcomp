@@ -11,8 +11,20 @@ ignore_user_abort(true);
 
 // Configuración
 $baseDir = dirname(__DIR__);
-// Usar ruta completa de Python (IIS no hereda el PATH del sistema)
-$pythonPath = 'C:\\Users\\ricardo.hernandez\\AppData\\Local\\Programs\\Python\\Python311\\python.exe';
+require_once $baseDir . '/config.php';
+
+// Ruta de Python: primero .env, luego buscar en el sistema
+$pythonPath = config('PYTHON_PATH', '');
+if (empty($pythonPath) || !file_exists($pythonPath)) {
+    // Intentar encontrar Python automáticamente
+    $pythonCheck = trim(shell_exec('where python 2>&1') ?? '');
+    $firstLine = strtok($pythonCheck, "\n");
+    if ($firstLine && file_exists($firstLine)) {
+        $pythonPath = $firstLine;
+    } else {
+        $pythonPath = 'python'; // Último recurso: confiar en PATH
+    }
+}
 $scriptPath = __DIR__ . '\\extractor_hv.py';
 $logFile = __DIR__ . '\\procesar_hv.log';
 
@@ -34,12 +46,13 @@ function logMessage($message) {
 function procesarHojaDeVida($rutaPdf, $vacanteTitulo = '') {
     global $pythonPath, $scriptPath;
     
-    // Verificar que Python está disponible en el sistema
-    $pythonCheck = shell_exec('python --version 2>&1');
+    // Verificar que Python está disponible
+    $pythonCheck = shell_exec('"' . $pythonPath . '" --version 2>&1');
     if (strpos($pythonCheck, 'Python') === false) {
-        logMessage("ERROR: Python no está instalado o no está en el PATH del sistema");
+        logMessage("ERROR: Python no encontrado en: $pythonPath");
         return ['success' => false, 'message' => 'Python no configurado en el servidor'];
     }
+    logMessage("Python encontrado: " . trim($pythonCheck) . " en: $pythonPath");
     
     // Verificar que el script existe
     if (!file_exists($scriptPath)) {
