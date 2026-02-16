@@ -14,6 +14,15 @@ from groq import Groq
 from openpyxl import Workbook
 from openpyxl.styles import Border, Side
 
+# OCR para PDFs basados en imagen (Canva, diseños gráficos, etc.)
+try:
+    import pytesseract
+    from PIL import Image
+    import io
+    OCR_DISPONIBLE = True
+except ImportError:
+    OCR_DISPONIBLE = False
+
 # ============================================
 # CONFIGURACIÓN
 # ============================================
@@ -38,6 +47,35 @@ MODELO = "llama-3.1-8b-instant"  # 14,400 requests/día, 30 RPM
 # Ruta del Excel de Prospectos
 RUTA_PROSPECTOS = os.path.join(os.path.dirname(__file__), "Prospectos.xlsx")
 
+# Configurar Tesseract OCR
+TESSERACT_PATH = os.getenv("TESSERACT_PATH", "")
+if not TESSERACT_PATH:
+    # Intentar cargar desde .env
+    env_path_tess = os.path.join(os.path.dirname(__file__), "..", ".env")
+    if os.path.exists(env_path_tess):
+        with open(env_path_tess, "r") as f:
+            for line in f:
+                if line.startswith("TESSERACT_PATH="):
+                    TESSERACT_PATH = line.split("=", 1)[1].strip().strip("\"'")
+                    break
+
+# Rutas comunes de Tesseract en Windows
+if not TESSERACT_PATH:
+    rutas_comunes = [
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+        r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+    ]
+    for ruta in rutas_comunes:
+        if os.path.exists(ruta):
+            TESSERACT_PATH = ruta
+            break
+
+if OCR_DISPONIBLE and TESSERACT_PATH:
+    pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
+
+# Umbral mínimo de caracteres para considerar extracción válida
+UMBRAL_TEXTO_MINIMO = 50
+
 # ============================================
 # FUNCIONES PRINCIPALES
 # ============================================
@@ -48,14 +86,66 @@ def configurar_groq():
 
 
 def extraer_texto_pdf(ruta_pdf):
-    """Extrae todo el texto de un PDF"""
+    """Extrae todo el texto de un PDF.
+    
+    Estrategia:
+    1. Intenta extracción directa de texto con PyMuPDF
+    2. Si el texto es insuficiente (<50 chars), usa OCR con Tesseract
+       (ideal para PDFs de Canva, diseños gráficos, imágenes escaneadas)
+    """
     try:
         doc = fitz.open(ruta_pdf)
+        
+        # Paso 1: Extracción directa de texto
         texto = ""
         for pagina in doc:
             texto += pagina.get_text()
+        texto = texto.strip()
+        
+        # Si el texto es suficiente, retornarlo
+        if len(texto) >= UMBRAL_TEXTO_MINIMO:
+            doc.close()
+            return texto
+        
+        # Paso 2: Fallback OCR para PDFs basados en imagen
+        print(f"   ⚠️ Texto directo insuficiente ({len(texto)} chars). Intentando OCR...")
+        
+        if not OCR_DISPONIBLE:
+            print(f"   ❌ OCR no disponible. Instalar: pip install pytesseract Pillow")
+            doc.close()
+            return texto if texto else None
+        
+        if not TESSERACT_PATH or not os.path.exists(TESSERACT_PATH):
+            print(f"   ❌ Tesseract no encontrado. Instalar desde: https://github.com/UB-Mannheim/tesseract")
+            doc.close()
+            return texto if texto else None
+        
+        texto_ocr = ""
+        for num_pagina, pagina in enumerate(doc):
+            try:
+                # Renderizar página como imagen a 300 DPI para mejor OCR
+                mat = fitz.Matrix(300/72, 300/72)  # 300 DPI
+                pix = pagina.get_pixmap(matrix=mat)
+                img_bytes = pix.tobytes("png")
+                img = Image.open(io.BytesIO(img_bytes))
+                
+                # OCR con Tesseract (español + inglés)
+                texto_pagina = pytesseract.image_to_string(img, lang='spa+eng')
+                texto_ocr += texto_pagina + "\n"
+            except Exception as e:
+                print(f"   ⚠️ Error OCR en página {num_pagina + 1}: {e}")
+                continue
+        
         doc.close()
-        return texto.strip()
+        texto_ocr = texto_ocr.strip()
+        
+        if texto_ocr:
+            print(f"   ✅ OCR exitoso: {len(texto_ocr)} caracteres extraídos")
+            return texto_ocr
+        
+        # Si OCR tampoco funcionó, devolver lo que tengamos
+        return texto if texto else None
+        
     except Exception as e:
         print(f"Error al leer PDF {ruta_pdf}: {e}")
         return None

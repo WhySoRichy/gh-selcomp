@@ -3,3 +3,8 @@
 groq>=0.4.0
 pymupdf>=1.23.0
 openpyxl>=3.1.0
+
+# OCR para PDFs basados en imagen (Canva, escaneados, diseños gráficos)
+# Requiere Tesseract OCR instalado: https://github.com/UB-Mannheim/tesseract
+pytesseract>=0.3.10
+Pillow>=10.0.0
