@@ -8,7 +8,7 @@
 
 <br><br>
 
-<img src="https://img.shields.io/badge/PHP-8.0+-eb0045?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8+">
+<img src="https://img.shields.io/badge/PHP-8.4-eb0045?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.4">
 <img src="https://img.shields.io/badge/MySQL-8.0+-404e62?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL 8+">
 <img src="https://img.shields.io/badge/JavaScript-ES6+-eb0045?style=for-the-badge&logo=javascript&logoColor=white" alt="JavaScript ES6+">
 <img src="https://img.shields.io/badge/Python-3.10+-404e62?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.10+">
@@ -37,7 +37,7 @@ Portal web empresarial desarrollado en **PHP** para la gestión integral del pro
 | Procesos de postulación dispersos | Portal centralizado con formularios validados |
 | Documentos confidenciales sin control | Gestión segura con permisos por rol |
 | Extracción manual de datos de CVs | IA automatizada con Llama 3.1 |
-| Accesos sin auditoría | Historial completo con 2FA opcional |
+| Accesos sin auditoría | Historial completo con 2FA (TOTP) |
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
@@ -63,7 +63,7 @@ Portal web empresarial desarrollado en **PHP** para la gestión integral del pro
 - Gestión de perfil con avatar
 - Visualización de vacantes
 - Centro de notificaciones
-- Configuración de 2FA
+- Configuración de 2FA (TOTP)
 
 </td>
 <td width="33%" valign="top">
@@ -75,6 +75,8 @@ Portal web empresarial desarrollado en **PHP** para la gestión integral del pro
 - Banco de Hojas de Vida
 - Sistema de notificaciones
 - Auditoría de accesos
+- Restablecer MFA de usuarios
+- 2FA obligatorio para admins
 
 </td>
 </tr>
@@ -150,8 +152,11 @@ gh/
 ├── Css/                     # Estilos por módulo
 ├── Js/                      # Scripts del cliente
 │
-├── config.php               # Configuración central
+├── funciones/               # Helpers (TOTP, fechas)
+├── config.php               # Configuración central (.env)
 ├── index.php                # Login principal
+├── verificar_2fa.php        # Verificación código TOTP
+├── configurar_2fa.php       # Setup QR + activación 2FA
 └── postulacion.php          # Formulario de postulación
 ```
 
@@ -169,7 +174,7 @@ El sistema implementa múltiples capas de seguridad siguiendo estándares de la 
 | **XSS** | `htmlspecialchars()` | Escape de toda salida HTML |
 | **CSRF** | Token-based | Tokens de 30 min con `hash_equals()` |
 | **Fuerza Bruta** | Bloqueo progresivo | 5 intentos → 15 min bloqueo |
-| **2FA** | Código por email | 6 dígitos, expira en 5 min |
+| **2FA (TOTP)** | App Authenticator | Google/Microsoft Authenticator, obligatorio para admins |
 | **Session Hijacking** | Regeneración periódica | ID regenerado cada 5 min |
 | **Session Fixation** | `session_regenerate_id(true)` | En cada login exitoso |
 | **Inactividad** | Timeout automático | 30 min → logout |
@@ -194,11 +199,21 @@ header("Referrer-Policy: strict-origin-when-cross-origin");
 
 | Componente | Versión | Obligatorio |
 |------------|---------|:-----------:|
-| PHP | 8.0+ | ✓ |
+| PHP | 8.4+ | ✓ |
 | MySQL | 8.0+ | ✓ |
 | Composer | Latest | ✓ |
 | Python | 3.10+ | Opcional |
 | Apache/Nginx/IIS | - | ✓ |
+
+**Extensiones PHP requeridas:**
+
+| Extensión | Uso |
+|-----------|-----|
+| `pdo_mysql` | Conexión a base de datos |
+| `openssl` | Cifrado AES-256-CBC de secretos TOTP |
+| `gd` | Redimensión de avatares |
+| `fileinfo` | Validación MIME de archivos subidos |
+| `mbstring` | Manejo de strings multibyte (UTF-8) |
 
 ### Configuración
 
@@ -212,14 +227,41 @@ composer install
 
 # 3. Configurar entorno
 cp .env.example .env
-# Editar .env con credenciales
+# Editar .env con tus credenciales (ver sección Variables de Entorno)
 
-# 4. Importar base de datos
+# 4. Generar claves de seguridad
+php -r "echo 'CSRF_SECRET=' . bin2hex(random_bytes(32)) . PHP_EOL;"
+php -r "echo 'APP_KEY=' . bin2hex(random_bytes(32)) . PHP_EOL;"
+# Copiar las claves generadas al archivo .env
+
+# 5. Importar base de datos
 mysql -u root -p < database/schema.sql
 
-# 5. (Opcional) Dependencias Python para IA
+# 6. Configurar servidor web
+# Apuntar el document root a la carpeta del proyecto
+# Ejemplo Apache: DocumentRoot /var/www/gh
+# Ejemplo IIS: Sitio apuntando a C:\inetpub\wwwroot\gh
+
+# 7. (Opcional) Dependencias Python para extractor de CVs con IA
 pip install groq pymupdf openpyxl
 ```
+
+### Variables de Entorno
+
+El archivo `.env` se genera a partir de `.env.example`. Variables **obligatorias**:
+
+| Variable | Descripción | Ejemplo |
+|----------|-------------|--------|
+| `DB_HOST` | Host de MySQL | `localhost` |
+| `DB_NAME` | Nombre de la base de datos | `gestionhumana` |
+| `DB_USER` | Usuario MySQL | `root` |
+| `DB_PASS` | Contraseña MySQL | `mi_password` |
+| `CSRF_SECRET` | Clave para tokens CSRF (64 hex chars) | Generar con `php -r` |
+| `APP_KEY` | Clave cifrado TOTP AES-256-CBC (64 hex chars) | Generar con `php -r` |
+| `SMTP_USER` | Email para envío de correos | `email@gmail.com` |
+| `SMTP_PASS` | App Password de Gmail | `xxxx xxxx xxxx xxxx` |
+
+> **Nota:** Para Gmail, usar [App Passwords](https://myaccount.google.com/apppasswords) en vez de la contraseña.
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
@@ -235,7 +277,7 @@ pip install groq pymupdf openpyxl
 | `documentos_usuarios` | Archivos subidos por usuarios |
 | `notificaciones` | Comunicación interna |
 | `historial_accesos` | Auditoría de login/logout |
-| `codigos_2fa` | Códigos temporales para 2FA |
+| `codigos_2fa` | Códigos temporales 2FA (legacy, email) |
 | `bloqueos_acceso` | Control de fuerza bruta |
 
 <details>
@@ -251,6 +293,7 @@ pip install groq pymupdf openpyxl
 │ nombre          │       │ ciudad          │       │ numero_documento│
 │ rol             │       │ fecha_pub       │       │ correo          │
 │ tiene_2fa       │       └─────────────────┘       │ archivo         │
+│ secreto_2fa     │
 └────────┬────────┘                                 └─────────────────┘
          │
          ├──► documentos_usuarios
@@ -316,7 +359,7 @@ pip install groq pymupdf openpyxl
 </tr>
 </table>
 
-**Librerías:** PHPMailer · SweetAlert2 · Font Awesome · PyMuPDF · OpenPyXL
+**Librerías:** PHPMailer · Google2FA · BaconQrCode · SweetAlert2 · Font Awesome · PyMuPDF · OpenPyXL
 
 </div>
 
