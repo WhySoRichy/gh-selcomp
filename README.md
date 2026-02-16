@@ -371,7 +371,7 @@ El archivo `.env` se genera a partir de `.env.example`. Variables **obligatorias
 
 | Líneas de Código | Archivos PHP | Archivos CSS | Tablas BD |
 |:----------------:|:------------:|:------------:|:---------:|
-| **~33,000** | **60+** | **20+** | **14** |
+| **+37,000** | **75** | **26** | **14** |
 
 </div>
 
