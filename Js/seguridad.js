@@ -604,14 +604,14 @@ function configurarValidacionContraseña() {
 }
 
 /**
- * Toggle Autenticación de Doble Factor (2FA)
+ * Toggle Autenticación de Doble Factor (2FA) por App de Autenticación
  * @param {boolean} activar - true para activar, false para desactivar
  */
 async function toggle2FA(activar) {
     const accion = activar ? 'activar' : 'desactivar';
     const titulo = activar ? 'Activar Verificación en 2 Pasos' : 'Desactivar Verificación en 2 Pasos';
     const mensaje = activar 
-        ? 'Al activar, recibirás un código por email cada vez que inicies sesión. ¿Deseas continuar?'
+        ? 'Se abrirá la configuración para vincular tu app de autenticación (Google Authenticator / Microsoft Authenticator). ¿Deseas continuar?'
         : '¿Estás seguro de desactivar la verificación en 2 pasos? Tu cuenta será menos segura.';
     const iconoConfirm = activar ? 'question' : 'warning';
     
@@ -677,6 +677,12 @@ async function toggle2FA(activar) {
         }
         
         if (data.success) {
+            // Si el servidor indica redirección (configuración de QR)
+            if (data.redirect) {
+                window.location.href = data.redirect;
+                return;
+            }
+
             await Swal.fire({
                 title: activar ? '¡Activado!' : 'Desactivado',
                 text: data.message,

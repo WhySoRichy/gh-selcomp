@@ -103,13 +103,13 @@ try {
                     </div>
                     <div class="card-content">
                         <?php if ($tiene_2fa): ?>
-                            <p>La verificación en 2 pasos está <strong>activada</strong>. Recibirás un código por email cada vez que inicies sesión.</p>
+                            <p>La verificación en 2 pasos está <strong>activada</strong> mediante tu app de autenticación (Google Authenticator / Microsoft Authenticator).</p>
                             <a href="#" onclick="toggle2FA(false)" class="btn-card btn-danger">
                                 <i class="fas fa-toggle-off"></i>
                                 Desactivar 2FA
                             </a>
                         <?php else: ?>
-                            <p>Añade una capa extra de seguridad. Al activar, recibirás un código por email para verificar tu identidad.</p>
+                            <p>Añade una capa extra de seguridad vinculando tu cuenta con una app de autenticación (Google Authenticator / Microsoft Authenticator).</p>
                             <a href="#" onclick="toggle2FA(true)" class="btn-card btn-success">
                                 <i class="fas fa-toggle-on"></i>
                                 Activar 2FA
@@ -208,9 +208,9 @@ try {
     <script>
         // Variables para las notificaciones
         <?php if (isset($_SESSION['titulo']) && isset($_SESSION['mensaje']) && isset($_SESSION['tipo_alerta'])): ?>
-        const mensajeTitulo = "<?php echo $_SESSION['titulo']; ?>";
-        const mensajeTexto = "<?php echo $_SESSION['mensaje']; ?>";
-        const mensajeTipo = "<?php echo $_SESSION['tipo_alerta']; ?>";
+        const mensajeTitulo = <?php echo json_encode($_SESSION['titulo']); ?>;
+        const mensajeTexto = <?php echo json_encode($_SESSION['mensaje']); ?>;
+        const mensajeTipo = <?php echo json_encode($_SESSION['tipo_alerta']); ?>;
         <?php 
             // Limpiar variables de sesión
             unset($_SESSION['titulo']);

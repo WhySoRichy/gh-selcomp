@@ -126,9 +126,9 @@ if ($_SESSION['usuario_rol'] !== 'admin' && $_SESSION['usuario_rol'] !== 'admini
     <script>
         // Variables para las notificaciones
         <?php if (isset($_SESSION['titulo']) && isset($_SESSION['mensaje']) && isset($_SESSION['tipo_alerta'])): ?>
-        const mensajeTitulo = "<?php echo addslashes($_SESSION['titulo']); ?>";
-        const mensajeTexto = "<?php echo addslashes($_SESSION['mensaje']); ?>";
-        const mensajeTipo = "<?php echo $_SESSION['tipo_alerta']; ?>";
+        const mensajeTitulo = <?php echo json_encode($_SESSION['titulo']); ?>;
+        const mensajeTexto = <?php echo json_encode($_SESSION['mensaje']); ?>;
+        const mensajeTipo = <?php echo json_encode($_SESSION['tipo_alerta']); ?>;
         <?php 
             unset($_SESSION['titulo']);
             unset($_SESSION['mensaje']);

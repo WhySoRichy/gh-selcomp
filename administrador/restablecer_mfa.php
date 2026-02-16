@@ -18,15 +18,16 @@ if ($_SESSION['usuario_rol'] !== 'admin' && $_SESSION['usuario_rol'] !== 'admini
 
 // Procesar restablecimiento si se envía por POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['restablecer_usuario_id'])) {
-    // Verificar token CSRF
-    if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) ||
-        $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    // Verificar token CSRF con función centralizada (protege contra timing attacks)
+    if (!validar_token_csrf($_POST['csrf_token'] ?? '')) {
         $_SESSION['titulo'] = 'Error de seguridad';
         $_SESSION['mensaje'] = 'Token de seguridad inválido. Recarga la página.';
         $_SESSION['tipo_alerta'] = 'error';
         header('Location: restablecer_mfa.php');
         exit;
     }
+    // Regenerar token después de uso exitoso (previene replay attacks)
+    generar_token_csrf(true);
 
     $usuario_objetivo_id = (int) $_POST['restablecer_usuario_id'];
 
@@ -45,14 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['restablecer_usuario_i
             exit;
         }
 
-        // Desactivar 2FA del usuario
-        $stmt = $conexion->prepare("UPDATE usuarios SET tiene_2fa = 0 WHERE id = :id");
+        // Desactivar 2FA del usuario y limpiar secreto TOTP
+        $stmt = $conexion->prepare("UPDATE usuarios SET tiene_2fa = 0, secreto_2fa = NULL WHERE id = :id");
         $stmt->bindParam(':id', $usuario_objetivo_id, PDO::PARAM_INT);
         $stmt->execute();
-
-        // Invalidar todos los códigos 2FA pendientes del usuario
-        $stmt = $conexion->prepare("UPDATE codigos_2fa SET usado = 1 WHERE usuario_id = :id AND usado = 0");
-        $stmt->execute(['id' => $usuario_objetivo_id]);
 
         // Registrar en historial de accesos
         $detalles = 'MFA restablecido por administrador ' . htmlspecialchars($_SESSION['usuario_nombre']) .
@@ -70,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['restablecer_usuario_i
         ]);
 
         $es_admin = ($usuario_objetivo['rol'] === 'admin' || $usuario_objetivo['rol'] === 'administrador');
-        $nota_extra = $es_admin ? ' Como es administrador, el 2FA se reactivará automáticamente en su próximo inicio de sesión.' : '';
+        $nota_extra = $es_admin ? ' Como es administrador, deberá configurar nuevamente su app de autenticación en el próximo inicio de sesión.' : '';
 
         $_SESSION['titulo'] = 'MFA Restablecido';
         $_SESSION['mensaje'] = 'Se ha restablecido el MFA de ' . $usuario_objetivo['nombre'] . ' ' . $usuario_objetivo['apellido'] . '.' . $nota_extra;
@@ -98,12 +95,12 @@ try {
     $con_2fa = count(array_filter($usuarios, function($u) { return $u['tiene_2fa'] == 1; }));
     $sin_2fa = $total - $con_2fa;
 } catch (Exception $e) {
-    die("Error al obtener usuarios: " . $e->getMessage());
+    error_log('Error al obtener usuarios MFA: ' . $e->getMessage());
+    die('Error interno al cargar los datos.');
 }
 
-// Generar token CSRF
-$csrf_token = bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $csrf_token;
+// Generar token CSRF usando la función centralizada
+$csrf_token = generar_token_csrf();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -423,7 +420,7 @@ $_SESSION['csrf_token'] = $csrf_token;
         <!-- Información -->
         <div class="warning-box">
             <i class="fas fa-exclamation-triangle"></i>
-            <strong>Nota para administradores:</strong> El 2FA es obligatorio para cuentas de administrador. Si se restablece el MFA de un administrador, este se reactivará automáticamente en su próximo inicio de sesión y recibirá un nuevo código de verificación.
+            <strong>Nota para administradores:</strong> El 2FA es obligatorio para cuentas de administrador. Si se restablece el MFA de un administrador, este deberá escanear un nuevo código QR con su app de autenticación en su próximo inicio de sesión.
         </div>
 
         <!-- Tabla de usuarios -->
@@ -480,7 +477,7 @@ $_SESSION['csrf_token'] = $csrf_token;
                                         <i class="fas fa-minus-circle"></i> Inactivo
                                     </span>
                                     <?php if ($es_admin): ?>
-                                        <span class="badge-nota-admin"><i class="fas fa-sync-alt"></i> Se activa al iniciar sesión</span>
+                                        <span class="badge-nota-admin"><i class="fas fa-sync-alt"></i> Configurar al iniciar sesión</span>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             </div>
@@ -516,9 +513,9 @@ $_SESSION['csrf_token'] = $csrf_token;
 <script>
     // Variables para las notificaciones (SweetAlert desde sesión)
     <?php if (isset($_SESSION['titulo']) && isset($_SESSION['mensaje']) && isset($_SESSION['tipo_alerta'])): ?>
-    const mensajeTitulo = "<?php echo addslashes($_SESSION['titulo']); ?>";
-    const mensajeTexto = "<?php echo addslashes($_SESSION['mensaje']); ?>";
-    const mensajeTipo = "<?php echo $_SESSION['tipo_alerta']; ?>";
+    const mensajeTitulo = <?php echo json_encode($_SESSION['titulo']); ?>;
+    const mensajeTexto = <?php echo json_encode($_SESSION['mensaje']); ?>;
+    const mensajeTipo = <?php echo json_encode($_SESSION['tipo_alerta']); ?>;
     <?php
         unset($_SESSION['titulo']);
         unset($_SESSION['mensaje']);
@@ -546,7 +543,7 @@ $_SESSION['csrf_token'] = $csrf_token;
 
         const confirmacion = await Swal.fire({
             title: '¿Restablecer MFA?',
-            html: `¿Estás seguro de restablecer la verificación en dos pasos de <strong>${nombreUsuario}</strong>?<br><br>Se desactivará su 2FA y se invalidarán los códigos pendientes.${esAdmin ? '<br><br><span style="color: #eb0045;"><i class="fas fa-exclamation-triangle"></i> Como es administrador, el 2FA se reactivará automáticamente en su próximo inicio de sesión.</span>' : ''}`,
+            html: `¿Estás seguro de restablecer la verificación en dos pasos de <strong>${nombreUsuario}</strong>?<br><br>Se desactivará su 2FA y se eliminará su clave de autenticación.${esAdmin ? '<br><br><span style="color: #eb0045;"><i class="fas fa-exclamation-triangle"></i> Como es administrador, deberá configurar nuevamente su app de autenticación en el próximo inicio de sesión.</span>' : ''}`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#eb0045',

@@ -1,15 +1,13 @@
 <?php
 /**
- * Verificación de Código 2FA
- * Esta página se muestra después del login cuando el usuario tiene 2FA activo
+ * Verificación de Código TOTP (2FA por App de Autenticación)
+ * Se muestra después del login cuando el usuario tiene 2FA activo con secreto configurado
  */
 session_start();
 require_once 'config.php';
 require_once 'conexion/conexion.php';
-require_once 'vendor/autoload.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+require_once 'funciones/totp_helpers.php';
+require_once __DIR__ . '/administrador/csrf_protection.php';
 
 // Headers de seguridad
 header("X-Frame-Options: DENY");
@@ -27,10 +25,7 @@ if (isset($_SESSION['2fa_pendiente_time'])) {
     if (time() - $_SESSION['2fa_pendiente_time'] > 600) {
         unset($_SESSION['2fa_pendiente']);
         unset($_SESSION['2fa_usuario_id']);
-        unset($_SESSION['2fa_email_parcial']);
         unset($_SESSION['2fa_pendiente_time']);
-        unset($_SESSION['2fa_ultimo_reenvio']);
-        unset($_SESSION['2fa_primer_activacion']);
         $_SESSION['titulo'] = 'Sesión expirada';
         $_SESSION['mensaje'] = 'El tiempo para verificar el código ha expirado. Por favor inicia sesión nuevamente.';
         $_SESSION['tipo_alerta'] = 'warning';
@@ -41,212 +36,131 @@ if (isset($_SESSION['2fa_pendiente_time'])) {
 
 $error = '';
 $usuario_id = $_SESSION['2fa_usuario_id'];
-$email_parcial = $_SESSION['2fa_email_parcial'] ?? '***@***.com';
+
+// Control de intentos fallidos
+if (!isset($_SESSION['2fa_intentos'])) {
+    $_SESSION['2fa_intentos'] = 0;
+}
 
 // Procesar envío del código
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verificar token CSRF
+    if (!validar_token_csrf($_POST['csrf_token'] ?? '')) {
+        $error = 'Token de seguridad inválido. Recarga la página.';
+    }
+
+    if (!$error) {
     $codigo_ingresado = trim($_POST['codigo'] ?? '');
 
     if (empty($codigo_ingresado)) {
-        $error = 'Por favor ingresa el código de verificación';
+        $error = 'Por favor ingresa el código de tu app de autenticación.';
     } elseif (!preg_match('/^\d{6}$/', $codigo_ingresado)) {
-        $error = 'El código debe ser de 6 dígitos';
+        $error = 'El código debe ser de 6 dígitos.';
+    } elseif ($_SESSION['2fa_intentos'] >= 5) {
+        // Demasiados intentos
+        unset($_SESSION['2fa_pendiente']);
+        unset($_SESSION['2fa_usuario_id']);
+        unset($_SESSION['2fa_pendiente_time']);
+        unset($_SESSION['2fa_intentos']);
+        $_SESSION['titulo'] = 'Acceso bloqueado';
+        $_SESSION['mensaje'] = 'Demasiados intentos fallidos. Por favor inicia sesión nuevamente.';
+        $_SESSION['tipo_alerta'] = 'error';
+        header('Location: index.php');
+        exit;
     } else {
         try {
-            // Buscar código válido para este usuario
-            $stmt = $conexion->prepare("
-                SELECT id, codigo_hash, intentos
-                FROM codigos_2fa
-                WHERE usuario_id = :usuario_id
-                  AND expira_en > NOW()
-                  AND usado = 0
-                ORDER BY creado_en DESC
-                LIMIT 1
-            ");
-            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+            // Obtener secreto cifrado del usuario
+            $stmt = $conexion->prepare("SELECT secreto_2fa FROM usuarios WHERE id = :id");
+            $stmt->bindParam(':id', $usuario_id, PDO::PARAM_INT);
             $stmt->execute();
-            $codigo_db = $stmt->fetch(PDO::FETCH_ASSOC);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (!$codigo_db) {
-                $error = 'El código ha expirado. Por favor solicita uno nuevo.';
-            } elseif ($codigo_db['intentos'] >= 5) {
-                // Marcar como usado para bloquear más intentos
-                $stmt = $conexion->prepare("UPDATE codigos_2fa SET usado = 1 WHERE id = :id");
-                $stmt->execute(['id' => $codigo_db['id']]);
-                $error = 'Demasiados intentos fallidos. Por favor solicita un nuevo código.';
-            } elseif (password_verify($codigo_ingresado, $codigo_db['codigo_hash'])) {
-                // ¡Código correcto! Completar el login
-                $stmt = $conexion->prepare("UPDATE codigos_2fa SET usado = 1 WHERE id = :id");
-                $stmt->execute(['id' => $codigo_db['id']]);
-
-                // Obtener datos del usuario
-                $stmt = $conexion->prepare("SELECT id, nombre, rol FROM usuarios WHERE id = :id");
-                $stmt->bindParam(':id', $usuario_id, PDO::PARAM_INT);
-                $stmt->execute();
-                $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if ($usuario) {
-                    // Establecer sesión completa
-                    $_SESSION['usuario_id'] = $usuario['id'];
-                    $_SESSION['usuario_nombre'] = $usuario['nombre'];
-                    $_SESSION['usuario_rol'] = $usuario['rol'];
-                    $_SESSION['hora_creacion_sesion'] = time();
-                    $_SESSION['ultima_actividad'] = time();
-
-                    // Limpiar datos 2FA de la sesión
-                    unset($_SESSION['2fa_pendiente']);
-                    unset($_SESSION['2fa_usuario_id']);
-                    unset($_SESSION['2fa_email_parcial']);
-                    unset($_SESSION['2fa_pendiente_time']);
-                    unset($_SESSION['2fa_ultimo_reenvio']);
-                    unset($_SESSION['2fa_primer_activacion']);
-
-                    // Regenerar ID de sesión
-                    session_regenerate_id(true);
-
-                    // Registrar acceso exitoso
-                    $ip = $_SERVER['REMOTE_ADDR'];
-                    $dispositivo = $_SERVER['HTTP_USER_AGENT'] ?? 'Desconocido';
-                    $detalles = 'Login exitoso con verificación 2FA';
-
-                    try {
-                        $stmt = $conexion->prepare("INSERT INTO historial_accesos
-                            (usuario_id, fecha_acceso, ip_acceso, dispositivo, navegador, exito, detalles)
-                            VALUES (?, NOW(), ?, ?, ?, 1, ?)");
-                        $stmt->execute([$usuario['id'], $ip, $dispositivo, $dispositivo, $detalles]);
-                    } catch (PDOException $e) {
-                        error_log("Error al registrar acceso 2FA: " . $e->getMessage());
-                    }
-
-                    // Redireccionar según rol
-                    if ($usuario['rol'] === 'admin' || $usuario['rol'] === 'administrador') {
-                        header('Location: administrador/index.php');
-                    } else {
-                        header('Location: usuario/index.php');
-                    }
-                    exit;
-                } else {
-                    // Usuario no encontrado - caso raro pero posible
-                    error_log("Usuario 2FA no encontrado: ID {$usuario_id}");
-                    $error = 'Error de verificación. Por favor intenta iniciar sesión nuevamente.';
-                    // Limpiar sesión corrupta
-                    unset($_SESSION['2fa_pendiente']);
-                    unset($_SESSION['2fa_usuario_id']);
-                    unset($_SESSION['2fa_email_parcial']);
-                    unset($_SESSION['2fa_pendiente_time']);
-                    unset($_SESSION['2fa_ultimo_reenvio']);
-                    unset($_SESSION['2fa_primer_activacion']);
-                }
+            if (!$row || empty($row['secreto_2fa'])) {
+                $error = 'Error de configuración 2FA. Contacta al administrador.';
             } else {
-                // Código incorrecto, incrementar intentos
-                $stmt = $conexion->prepare("UPDATE codigos_2fa SET intentos = intentos + 1 WHERE id = :id");
-                $stmt->execute(['id' => $codigo_db['id']]);
-                $intentos_restantes = 5 - ($codigo_db['intentos'] + 1);
+                // Descifrar secreto y verificar código TOTP
+                $secret = decrypt_2fa_secret($row['secreto_2fa']);
 
-                if ($intentos_restantes <= 0) {
-                    $error = "Código incorrecto. Has agotado todos los intentos. Solicita un nuevo código.";
+                if (verify_2fa_code($secret, $codigo_ingresado)) {
+                    // ¡Código correcto! Completar el login
+                    $stmt = $conexion->prepare("SELECT id, nombre, rol FROM usuarios WHERE id = :id");
+                    $stmt->bindParam(':id', $usuario_id, PDO::PARAM_INT);
+                    $stmt->execute();
+                    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if ($usuario) {
+                        // Establecer sesión completa
+                        $_SESSION['usuario_id'] = $usuario['id'];
+                        $_SESSION['usuario_nombre'] = $usuario['nombre'];
+                        $_SESSION['usuario_rol'] = $usuario['rol'];
+                        $_SESSION['hora_creacion_sesion'] = time();
+                        $_SESSION['ultima_actividad'] = time();
+
+                        // Limpiar datos 2FA de la sesión
+                        unset($_SESSION['2fa_pendiente']);
+                        unset($_SESSION['2fa_usuario_id']);
+                        unset($_SESSION['2fa_pendiente_time']);
+                        unset($_SESSION['2fa_intentos']);
+
+                        // Regenerar ID de sesión
+                        session_regenerate_id(true);
+
+                        // Registrar acceso exitoso
+                        $ip = $_SERVER['REMOTE_ADDR'];
+                        $dispositivo = $_SERVER['HTTP_USER_AGENT'] ?? 'Desconocido';
+                        $detalles = 'Login exitoso con verificación 2FA (App de Autenticación)';
+
+                        try {
+                            $stmt = $conexion->prepare("INSERT INTO historial_accesos
+                                (usuario_id, fecha_acceso, ip_acceso, dispositivo, navegador, exito, detalles)
+                                VALUES (?, NOW(), ?, ?, ?, 1, ?)");
+                            $stmt->execute([$usuario['id'], $ip, $dispositivo, $dispositivo, $detalles]);
+                        } catch (PDOException $e) {
+                            error_log("Error al registrar acceso 2FA: " . $e->getMessage());
+                        }
+
+                        // Redireccionar según rol
+                        if ($usuario['rol'] === 'admin' || $usuario['rol'] === 'administrador') {
+                            header('Location: administrador/index.php');
+                        } else {
+                            header('Location: usuario/index.php');
+                        }
+                        exit;
+                    } else {
+                        error_log("Usuario 2FA no encontrado: ID {$usuario_id}");
+                        $error = 'Error de verificación. Por favor intenta iniciar sesión nuevamente.';
+                        unset($_SESSION['2fa_pendiente']);
+                        unset($_SESSION['2fa_usuario_id']);
+                        unset($_SESSION['2fa_pendiente_time']);
+                        unset($_SESSION['2fa_intentos']);
+                    }
                 } else {
-                    $error = "Código incorrecto. Te quedan {$intentos_restantes} intento" . ($intentos_restantes > 1 ? 's' : '') . ".";
+                    // Código incorrecto
+                    $_SESSION['2fa_intentos']++;
+                    $intentos_restantes = 5 - $_SESSION['2fa_intentos'];
+
+                    if ($intentos_restantes <= 0) {
+                        unset($_SESSION['2fa_pendiente']);
+                        unset($_SESSION['2fa_usuario_id']);
+                        unset($_SESSION['2fa_pendiente_time']);
+                        unset($_SESSION['2fa_intentos']);
+                        $_SESSION['titulo'] = 'Acceso bloqueado';
+                        $_SESSION['mensaje'] = 'Demasiados intentos fallidos. Por favor inicia sesión nuevamente.';
+                        $_SESSION['tipo_alerta'] = 'error';
+                        header('Location: index.php');
+                        exit;
+                    } else {
+                        $error = "Código incorrecto. Te quedan {$intentos_restantes} intento" . ($intentos_restantes > 1 ? 's' : '') . ".";
+                    }
                 }
             }
-        } catch (PDOException $e) {
-            error_log("Error en verificación 2FA: " . $e->getMessage());
+        } catch (Exception $e) {
+            error_log("Error en verificación 2FA TOTP: " . $e->getMessage());
             $error = 'Error al verificar el código. Por favor intenta nuevamente.';
         }
     }
+    } // cierre if (!$error)
 }
-
-// Función para reenviar código
-if (isset($_GET['reenviar']) && $_GET['reenviar'] === '1') {
-    // Rate limiting: mínimo 60 segundos entre reenvíos
-    $ultimo_reenvio = $_SESSION['2fa_ultimo_reenvio'] ?? 0;
-    $tiempo_espera = 60 - (time() - $ultimo_reenvio);
-
-    if ($tiempo_espera > 0) {
-        $_SESSION['2fa_mensaje'] = "Espera {$tiempo_espera} segundos para solicitar otro código.";
-        header('Location: verificar_2fa.php');
-        exit;
-    }
-
-    $_SESSION['2fa_ultimo_reenvio'] = time();
-
-    try {
-        // Obtener email del usuario
-        $stmt = $conexion->prepare("SELECT email, nombre FROM usuarios WHERE id = :id");
-        $stmt->bindParam(':id', $usuario_id, PDO::PARAM_INT);
-        $stmt->execute();
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($usuario) {
-            // Invalidar códigos anteriores
-            $stmt = $conexion->prepare("UPDATE codigos_2fa SET usado = 1 WHERE usuario_id = :id AND usado = 0");
-            $stmt->execute(['id' => $usuario_id]);
-
-            // Generar nuevo código
-            $codigo = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-            $codigo_hash = password_hash($codigo, PASSWORD_DEFAULT);
-            $ip = $_SERVER['REMOTE_ADDR'];
-
-            $stmt = $conexion->prepare("
-                INSERT INTO codigos_2fa (usuario_id, codigo, codigo_hash, expira_en, ip_solicitud)
-                VALUES (:usuario_id, '******', :codigo_hash, DATE_ADD(NOW(), INTERVAL 5 MINUTE), :ip)
-            ");
-            $stmt->execute([
-                'usuario_id' => $usuario_id,
-                'codigo_hash' => $codigo_hash,
-                'ip' => $ip
-            ]);
-
-            // Enviar email
-            $mail = new PHPMailer(true);
-            $mail->CharSet = 'UTF-8';
-            $mail->isSMTP();
-            $mail->Host = SMTP_HOST;
-            $mail->SMTPAuth = true;
-            $mail->Username = SMTP_USER;
-            $mail->Password = SMTP_PASS;
-            $mail->Port = SMTP_PORT;
-
-            $mail->setFrom(SMTP_USER, config('SMTP_FROM_NAME', 'Selcomp - Portal GH'));
-            $mail->addAddress($usuario['email']);
-            $mail->Subject = 'Código de Verificación - Portal Gestión Humana';
-            $mail->isHTML(true);
-
-            // Adjuntar imágenes de firma usando CID
-            $mail->addEmbeddedImage(__DIR__ . '/Img/OlvidoFirma1.png', 'firmaContacto');
-            $mail->addEmbeddedImage(__DIR__ . '/Img/OlvidoFirma2.png', 'firmaLegal');
-
-            $mail->Body = '
-            <p>Hola <strong>' . htmlspecialchars($usuario['nombre']) . '</strong>,</p>
-            <p>Tu código de verificación es:</p>
-            <div style="background: #f4f4f4; padding: 20px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #d1164c; border-radius: 8px; margin: 20px 0;">
-                ' . $codigo . '
-            </div>
-            <p style="color: #666;">Este código expira en <strong>5 minutos</strong>.</p>
-            <p style="color: #666;">Si no solicitaste este código, ignora este mensaje.</p>
-            <br>
-            <img src="cid:firmaContacto" alt="Firma contacto Selcomp" style="max-width:650px;width:100%;display:block;margin-left:0;"><br>
-            <img src="cid:firmaLegal" alt="Aviso legal Selcomp" style="max-width:650px;width:100%;display:block;margin-left:0;">
-            ';
-            $mail->AltBody = "Tu código de verificación es: {$codigo}. Expira en 5 minutos.";
-            $mail->send();
-
-            $_SESSION['2fa_mensaje'] = 'Se ha enviado un nuevo código a tu correo.';
-        }
-    } catch (Exception $e) {
-        error_log("Error al reenviar código 2FA: " . $e->getMessage());
-        $error = 'No se pudo enviar el código. Por favor intenta nuevamente.';
-    }
-
-    header('Location: verificar_2fa.php');
-    exit;
-}
-
-$mensaje_exito = $_SESSION['2fa_mensaje'] ?? '';
-unset($_SESSION['2fa_mensaje']);
-
-$primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
-// No se elimina aquí; se limpia al completar la verificación exitosa
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -272,7 +186,7 @@ $primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
 
         .verificacion-icon i {
             font-size: 60px;
-            color: #d1164c;
+            color: #eb0045;
             animation: pulse 2s infinite;
         }
 
@@ -292,13 +206,7 @@ $primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
             color: #666;
             font-size: 14px;
             margin-bottom: 30px;
-        }
-
-        .codigo-input-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
+            line-height: 1.5;
         }
 
         .codigo-input {
@@ -319,15 +227,15 @@ $primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
         }
 
         .codigo-input:focus {
-            border-color: #d1164c;
+            border-color: #eb0045;
             outline: none;
-            box-shadow: 0 0 10px rgba(209, 22, 76, 0.2);
+            box-shadow: 0 0 10px rgba(235, 0, 69, 0.2);
         }
 
         .btn-verificar {
             width: 100%;
             padding: 15px;
-            background: #d1164c;
+            background: linear-gradient(135deg, #eb0045, #c4003a);
             color: white;
             border: none;
             border-radius: 8px;
@@ -335,44 +243,18 @@ $primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .btn-verificar:hover {
-            background: #b01341;
+            background: linear-gradient(135deg, #c4003a, #a10030);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(209, 22, 76, 0.3);
-        }
-
-        .reenviar-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .reenviar-link a {
-            color: #d1164c;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .reenviar-link a:hover {
-            text-decoration: underline;
-            color: #b01341;
+            box-shadow: 0 5px 15px rgba(235, 0, 69, 0.3);
         }
 
         .error-msg {
             background: #ffebee;
             color: #c62828;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .success-msg {
-            background: #e8f5e9;
-            color: #2e7d32;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 20px;
@@ -391,14 +273,18 @@ $primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
             font-size: 13px;
         }
 
-        .expira-info {
+        .cancelar-link a:hover {
+            color: #eb0045;
+        }
+
+        .info-app {
             text-align: center;
             font-size: 12px;
             color: #888;
             margin-top: 15px;
         }
 
-        .expira-info i {
+        .info-app i {
             margin-right: 5px;
         }
     </style>
@@ -411,16 +297,9 @@ $primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
 
         <h2 class="verificacion-titulo">Verificación de Seguridad</h2>
         <p class="verificacion-subtitulo">
-            Hemos enviado un código de 6 dígitos a<br>
-            <strong><?php echo htmlspecialchars($email_parcial); ?></strong>
+            Ingresa el código de 6 dígitos de tu<br>
+            <strong>app de autenticación</strong>
         </p>
-
-        <?php if ($primer_activacion): ?>
-            <div class="success-msg" style="background: #eef1f5; color: #404e62; border-left: 4px solid #404e62; text-align: left;">
-                <i class="fas fa-info-circle" style="color: #eb0045;"></i> <strong>2FA activado automáticamente.</strong><br>
-                La verificación en dos pasos es obligatoria para cuentas de administrador. A partir de ahora, se te solicitará un código cada vez que inicies sesión.
-            </div>
-        <?php endif; ?>
 
         <?php if ($error): ?>
             <div class="error-msg">
@@ -428,13 +307,8 @@ $primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
             </div>
         <?php endif; ?>
 
-        <?php if ($mensaje_exito): ?>
-            <div class="success-msg">
-                <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($mensaje_exito); ?>
-            </div>
-        <?php endif; ?>
-
         <form method="POST" action="verificar_2fa.php" id="form-2fa">
+            <?php echo campo_csrf_token(); ?>
             <input type="text"
                    name="codigo"
                    class="codigo-input"
@@ -451,14 +325,8 @@ $primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
             </button>
         </form>
 
-        <div class="expira-info">
-            <i class="fas fa-clock"></i> El código expira en 5 minutos
-        </div>
-
-        <div class="reenviar-link">
-            <a href="verificar_2fa.php?reenviar=1">
-                <i class="fas fa-redo"></i> Reenviar código
-            </a>
+        <div class="info-app">
+            <i class="fas fa-mobile-alt"></i> Abre Google Authenticator o Microsoft Authenticator
         </div>
 
         <div class="cancelar-link">
@@ -478,7 +346,6 @@ $primer_activacion = $_SESSION['2fa_primer_activacion'] ?? false;
 
             // Auto-submit cuando se completan 6 dígitos
             if (this.value.length === 6) {
-                // Pequeño delay para mejor UX
                 setTimeout(() => {
                     document.getElementById('form-2fa').submit();
                 }, 300);
