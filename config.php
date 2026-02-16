@@ -46,17 +46,26 @@ if (file_exists($envPath)) {
 
 // Configuración de la aplicación
 define('BASE_URL', $_ENV['BASE_URL'] ?? '/gh/');
-define('ENVIRONMENT', $_ENV['ENVIRONMENT'] ?? 'development');
+define('ENVIRONMENT', $_ENV['ENVIRONMENT'] ?? 'production');
 
 // Configuración de base de datos
-define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
-define('DB_NAME', $_ENV['DB_NAME'] ?? 'gestionhumana');
-define('DB_USER', $_ENV['DB_USER'] ?? 'root');
+if (empty($_ENV['DB_HOST']) || empty($_ENV['DB_NAME']) || empty($_ENV['DB_USER'])) {
+    throw new Exception('Variables de entorno de base de datos no configuradas (DB_HOST, DB_NAME, DB_USER). Verifique el archivo .env');
+}
+define('DB_HOST', $_ENV['DB_HOST']);
+define('DB_NAME', $_ENV['DB_NAME']);
+define('DB_USER', $_ENV['DB_USER']);
 define('DB_PASS', $_ENV['DB_PASS'] ?? '');
 
 // Configuración de seguridad
-define('CSRF_SECRET', $_ENV['CSRF_SECRET'] ?? 'default_secret_key');
-define('SESSION_SECURE', $_ENV['SESSION_SECURE'] === 'true');
+if (empty($_ENV['CSRF_SECRET']) || $_ENV['CSRF_SECRET'] === 'default_secret_key') {
+    throw new Exception('CSRF_SECRET no configurado en .env');
+}
+define('CSRF_SECRET', $_ENV['CSRF_SECRET']);
+define('SESSION_SECURE', ($_ENV['SESSION_SECURE'] ?? 'false') === 'true');
+
+// Clave de cifrado para secretos TOTP (AES-256-CBC, 64 hex chars = 32 bytes)
+define('APP_KEY', $_ENV['APP_KEY'] ?? '');
 
 // Configuración de email
 define('SMTP_HOST', $_ENV['SMTP_HOST'] ?? 'smtp.gmail.com');
@@ -72,6 +81,14 @@ if (ENVIRONMENT === 'development') {
 } else {
     error_reporting(0);
     ini_set('display_errors', 0);
+}
+
+// Configuración segura de cookies de sesión
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.use_strict_mode', 1);
+if (SESSION_SECURE || (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')) {
+    ini_set('session.cookie_secure', 1);
 }
 
 // Función helper para generar URLs

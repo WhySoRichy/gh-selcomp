@@ -30,8 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         } catch (PDOException $e) {
+            error_log('Error al eliminar usuario: ' . $e->getMessage());
             $_SESSION['titulo'] = 'Error';
-            $_SESSION['mensaje'] = 'Error al eliminar el usuario: ' . $e->getMessage();
+            $_SESSION['mensaje'] = 'Error interno al eliminar el usuario. Contacte al administrador.';
             $_SESSION['tipo_alerta'] = 'error';
         }
     }
@@ -41,7 +42,8 @@ try {
     $stmt = $conexion->query("SELECT id, nombre, email, rol FROM usuarios");
     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    die("Error al obtener usuarios: " . $e->getMessage());
+    error_log('Error al obtener usuarios: ' . $e->getMessage());
+    die('Error interno al cargar los datos.');
 }
 ?>
 <!DOCTYPE html>

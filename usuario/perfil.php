@@ -12,7 +12,7 @@ if (!isset($_SESSION['csrf_token'])) {
 $usuario_id = $_SESSION['usuario_id'];
 
 // Obtener datos actuales del usuario
-$sql = "SELECT * FROM usuarios WHERE id = :id";
+$sql = "SELECT id, nombre, apellido, cargo, area, email, telefono, direccion, fecha_nacimiento, estado_civil, emergencia_contacto, emergencia_telefono, acerca_de_mi, avatar, fecha_creacion FROM usuarios WHERE id = :id";
 $stmt = $conexion->prepare($sql);
 $stmt->bindParam(':id', $usuario_id);
 $stmt->execute();

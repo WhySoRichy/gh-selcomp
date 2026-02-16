@@ -30,8 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['mensaje'] = 'Vacante actualizada correctamente';
             $_SESSION['tipo_alerta'] = 'success';
         } catch (PDOException $e) {
+            error_log('Error al actualizar vacante: ' . $e->getMessage());
             $_SESSION['titulo'] = 'Error';
-            $_SESSION['mensaje'] = 'Error al actualizar la vacante: ' . $e->getMessage();
+            $_SESSION['mensaje'] = 'Error interno al actualizar la vacante. Contacte al administrador.';
             $_SESSION['tipo_alerta'] = 'error';
         }
     } else {
@@ -48,7 +49,8 @@ try {
     $stmt = $conexion->query("SELECT id, titulo, descripcion, ciudad FROM vacantes");
     $vacantes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    die("Error al obtener vacantes: " . $e->getMessage());
+    error_log('Error al obtener vacantes: ' . $e->getMessage());
+    die('Error interno al cargar los datos.');
 }
 ?>
 <!DOCTYPE html>

@@ -67,7 +67,7 @@ try {
             $ruta_completa = $ruta_alternativa;
         } else {
             http_response_code(404);
-            die('El archivo no existe en el servidor. Ruta: ' . basename($ruta_completa));
+            die('El archivo no existe en el servidor');
         }
     }
     

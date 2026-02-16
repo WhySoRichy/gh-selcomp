@@ -1,11 +1,13 @@
 <?php
 session_start();
 require_once "../conexion/conexion.php";
+include 'auth.php';
 
-// Verificar autenticación
-if (!isset($_SESSION['usuario_id'])) {
+// Verificar que sea administrador  
+if (!isset($_SESSION['usuario_rol']) || 
+    ($_SESSION['usuario_rol'] !== 'admin' && $_SESSION['usuario_rol'] !== 'administrador')) {
     header('Content-Type: application/json');
-    echo json_encode(['error' => 'No autenticado']);
+    echo json_encode(['error' => 'No autorizado']);
     exit;
 }
 
@@ -35,7 +37,6 @@ try {
     foreach ($archivos as &$archivo) {
         $rutaCompleta = "../" . $archivo['ruta_archivo'];
         $archivo['existe_fisicamente'] = file_exists($rutaCompleta);
-        $archivo['ruta_completa'] = $rutaCompleta;
         
         // Información adicional del archivo si existe
         if ($archivo['existe_fisicamente']) {
@@ -55,8 +56,9 @@ try {
     ], JSON_PRETTY_PRINT);
     
 } catch (Exception $e) {
+    error_log("Error al consultar archivos: " . $e->getMessage());
     echo json_encode([
-        'error' => 'Error al consultar archivos: ' . $e->getMessage()
+        'error' => 'Error al consultar archivos. Contacte al administrador.'
     ]);
 }
 ?>

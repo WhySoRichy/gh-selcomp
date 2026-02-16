@@ -2,6 +2,11 @@
 session_start();
 require 'conexion/conexion.php';
 require_once 'config.php';
+require_once 'administrador/csrf_protection.php';
+require_once 'seguridad/proteccion_fuerza_bruta.php';
+
+// Inicializar protección contra fuerza bruta
+$proteccion_reset = new ProteccionFuerzaBruta($conexion);
 
 // Headers de seguridad
 header("X-Frame-Options: DENY");
@@ -17,11 +22,22 @@ require 'vendor/autoload.php';
 $alerta = null;  // Variable para el mensaje de alerta
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verificar CSRF
+    verificar_csrf();
+
     $email = trim($_POST['email'] ?? '');
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $alerta = ['title' => 'Error', 'text' => 'El correo ingresado no es válido.', 'icon' => 'error'];
     } else {
+        // Rate limiting: verificar bloqueo por IP/email
+        $ip_reset = $_SERVER['REMOTE_ADDR'];
+        $bloqueo_reset = $proteccion_reset->verificarBloqueo($email, $ip_reset);
+        if ($bloqueo_reset['bloqueado']) {
+            $alerta = ['title' => 'Demasiados intentos', 'text' => 'Ha realizado demasiadas solicitudes. Intente nuevamente en ' . $proteccion_reset->formatearTiempoRestante($bloqueo_reset['tiempo_restante']) . '.', 'icon' => 'error'];
+        } else {
+            // Registrar intento (para rate limiting)
+            $proteccion_reset->registrarIntentoFallido($email, $ip_reset);
         $stmt = $conexion->prepare("SELECT id, nombre, apellido FROM usuarios WHERE email = :email");
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
@@ -97,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
         // Si el usuario no existe, simplemente no hacemos nada pero mostramos el mismo mensaje
+        } // cierre rate limiting
     }
 }
 ?>
@@ -119,6 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Portal Gestión Humana</h1>
         <h2>Olvido de contraseña</h2>
         <form action="olvido_contraseña.php" method="post" autocomplete="off">
+            <?php echo campo_csrf_token(); ?>
             <input type="email" name="email" placeholder="Correo electrónico" required>
             <button type="submit" class="btn">Enviar</button>
         </form>
@@ -129,9 +147,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
 <?php if ($alerta): ?>
 Swal.fire({
-    title: "<?php echo $alerta['title']; ?>",
-    text: "<?php echo $alerta['text']; ?>",
-    icon: "<?php echo $alerta['icon']; ?>"
+    title: <?php echo json_encode($alerta['title']); ?>,
+    text: <?php echo json_encode($alerta['text']); ?>,
+    icon: <?php echo json_encode($alerta['icon']); ?>
 });
 <?php endif; ?>
 </script>

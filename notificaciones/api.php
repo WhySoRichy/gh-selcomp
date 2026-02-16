@@ -274,10 +274,11 @@ function construirClausulasWHERE() {
         $params['fecha_hasta'] = $_GET['fecha_hasta'];
     }
     
-    // Búsqueda por texto
+    // Búsqueda por texto (escapar wildcards para prevenir búsquedas maliciosas)
     if (!empty($_GET['busqueda'])) {
         $where[] = "(n.nombre LIKE :busqueda OR n.cuerpo LIKE :busqueda)";
-        $params['busqueda'] = '%' . $_GET['busqueda'] . '%';
+        $busqueda_escapada = str_replace(['%', '_'], ['\\%', '\\_'], $_GET['busqueda']);
+        $params['busqueda'] = '%' . $busqueda_escapada . '%';
     }
     
     return [$where, $params];
@@ -1242,9 +1243,32 @@ function responderNotificacion($conexion) {
                     enviarError('Uno de los archivos tiene un formato no permitido');
                 }
                 
-                // Generar nombre único
+                // Validar MIME type real del archivo
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mime_real = finfo_file($finfo, $_FILES['archivos']['tmp_name'][$i]);
+                finfo_close($finfo);
+                
+                $mimes_por_extension = [
+                    'pdf' => ['application/pdf'],
+                    'doc' => ['application/msword'],
+                    'docx' => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip'],
+                    'xls' => ['application/vnd.ms-excel'],
+                    'xlsx' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip'],
+                    'jpg' => ['image/jpeg'],
+                    'jpeg' => ['image/jpeg'],
+                    'png' => ['image/png'],
+                    'txt' => ['text/plain'],
+                    'zip' => ['application/zip', 'application/x-zip-compressed'],
+                    'rar' => ['application/x-rar-compressed', 'application/vnd.rar', 'application/octet-stream']
+                ];
+                
+                if (isset($mimes_por_extension[$extension]) && !in_array($mime_real, $mimes_por_extension[$extension])) {
+                    enviarError('El tipo real del archivo no coincide con su extensión');
+                }
+                
+                // Generar nombre único seguro
                 $nombre_original = $_FILES['archivos']['name'][$i];
-                $nombre_unico = date('YmdHis') . '_' . $usuario_id . '_' . uniqid() . '.' . $extension;
+                $nombre_unico = date('YmdHis') . '_' . $usuario_id . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
                 $archivo_ruta = 'Documentos/Respuestas/' . $nombre_unico;
                 $ruta_completa = __DIR__ . '/../' . $archivo_ruta;
                 
@@ -1508,22 +1532,33 @@ function descargarRespuesta($conexion) {
         
         $ruta_completa = __DIR__ . '/../' . $respuesta['archivo_ruta'];
         
-        if (!file_exists($ruta_completa)) {
+        // Validar que la ruta real esté dentro del directorio permitido (previene path traversal)
+        $real_path = realpath($ruta_completa);
+        $allowed_dir = realpath(__DIR__ . '/../Documentos/Respuestas');
+        
+        if ($real_path === false || $allowed_dir === false || strpos($real_path, $allowed_dir) !== 0) {
+            enviarError('Acceso denegado al archivo', 403);
+        }
+        
+        if (!file_exists($real_path)) {
             enviarError('Archivo no encontrado en el servidor', 404);
         }
         
         // Limpiar buffer
         if (ob_get_length()) ob_clean();
         
+        // Sanitizar nombre para Content-Disposition (previene header injection)
+        $nombre_seguro = str_replace(["\r", "\n", '"', "\0"], '', $respuesta['archivo_nombre']);
+        
         // Cabeceras de descarga
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . $respuesta['archivo_nombre'] . '"');
-        header('Content-Length: ' . filesize($ruta_completa));
+        header('Content-Disposition: attachment; filename="' . $nombre_seguro . '"');
+        header('Content-Length: ' . filesize($real_path));
         header('Cache-Control: private');
         header('Pragma: private');
         
         // Enviar archivo
-        readfile($ruta_completa);
+        readfile($real_path);
         exit;
         
     } catch (Exception $e) {

@@ -82,5 +82,7 @@ function verificar_csrf() {
             http_response_code(403);
             die('Token CSRF invalido. Accion no permitida.');
         }
+        // Regenerar token después de uso exitoso para prevenir replay attacks
+        generar_token_csrf(true);
     }
 }

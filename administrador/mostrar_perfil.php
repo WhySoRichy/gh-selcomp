@@ -89,7 +89,13 @@ if (isset($_POST['cambiar_avatar']) && isset($_FILES['avatar'])) {
         $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         $maxSize = 5 * 1024 * 1024; // 5MB (unificado con usuario)
 
-        if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']) && $file['size'] <= $maxSize) {
+        // Validar MIME type real del archivo
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_real = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+        $mimes_permitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+        if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']) && $file['size'] <= $maxSize && in_array($mime_real, $mimes_permitidos)) {
             // Formato unificado: user_{id}.jpg (siempre JPG)
             $avatarName = 'user_' . $user_id . '.jpg';
             $destino = '../Img/Avatars/' . $avatarName;

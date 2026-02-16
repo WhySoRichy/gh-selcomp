@@ -31,8 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: ver_vacantes.php');
             exit;
         } catch (PDOException $e) {
+            error_log('Error al agregar vacante: ' . $e->getMessage());
             $_SESSION['titulo'] = 'Error';
-            $_SESSION['mensaje'] = 'Error al agregar la vacante: ' . $e->getMessage();
+            $_SESSION['mensaje'] = 'Error interno al agregar la vacante. Contacte al administrador.';
             $_SESSION['tipo_alerta'] = 'error';
         }
     } else {

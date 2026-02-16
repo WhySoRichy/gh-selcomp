@@ -408,9 +408,9 @@ $csrf_token = generar_token_csrf();
     <!-- Pasar datos de sesión a JavaScript -->
     <script>
         globalThis.ES_ADMIN = <?php echo $es_admin ? 'true' : 'false'; ?>;
-        globalThis.USUARIO_ID = <?php echo $_SESSION['usuario_id']; ?>;
-        globalThis.USUARIO_ROL = '<?php echo $_SESSION['usuario_rol']; ?>';
-        globalThis.USUARIO_NOMBRE = '<?php echo $_SESSION['usuario_nombre'] ?? 'Usuario'; ?>';
+        globalThis.USUARIO_ID = <?php echo json_encode((int)$_SESSION['usuario_id']); ?>;
+        globalThis.USUARIO_ROL = <?php echo json_encode($_SESSION['usuario_rol']); ?>;
+        globalThis.USUARIO_NOMBRE = <?php echo json_encode($_SESSION['usuario_nombre'] ?? 'Usuario'); ?>;
     </script>
 
     <!-- Script del sistema -->

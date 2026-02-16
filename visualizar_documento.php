@@ -13,6 +13,12 @@ if (!isset($_SESSION['usuario_id']) && !isset($_SESSION['admin_id'])) {
     exit;
 }
 
+// Determinar rol del usuario autenticado
+$es_admin_visualizar = false;
+if (isset($_SESSION['usuario_rol']) && ($_SESSION['usuario_rol'] === 'admin' || $_SESSION['usuario_rol'] === 'administrador')) {
+    $es_admin_visualizar = true;
+}
+
 // Validar que se haya proporcionado un archivo
 if (!isset($_GET['archivo']) || empty($_GET['archivo'])) {
     header('HTTP/1.0 400 Bad Request');
@@ -52,6 +58,36 @@ if (strpos($path_real, $directorio_base) !== 0) {
     header('HTTP/1.0 403 Forbidden');
     echo "Acceso denegado";
     exit;
+}
+
+// ========== CONTROL DE ACCESO POR ROL ==========
+if (!$es_admin_visualizar && isset($_SESSION['usuario_id'])) {
+    $ruta_normalizada = str_replace('\\', '/', $ruta_relativa);
+    $directorios_publicos = ['Documentos/Postulaciones/', 'Documentos/Recursos/'];
+    $acceso_permitido = false;
+    
+    foreach ($directorios_publicos as $dir) {
+        if (strpos($ruta_normalizada, $dir) === 0) {
+            $acceso_permitido = true;
+            break;
+        }
+    }
+    
+    if (!$acceso_permitido) {
+        require_once __DIR__ . '/conexion/conexion.php';
+        $stmt_perm = $conexion->prepare("SELECT id FROM documentos_usuario WHERE usuario_id = :uid AND ruta_archivo LIKE :ruta LIMIT 1");
+        $ruta_buscar = '%' . basename($ruta_relativa);
+        $stmt_perm->execute(['uid' => $_SESSION['usuario_id'], 'ruta' => $ruta_buscar]);
+        if ($stmt_perm->fetch()) {
+            $acceso_permitido = true;
+        }
+    }
+    
+    if (!$acceso_permitido) {
+        header('HTTP/1.0 403 Forbidden');
+        echo "No tiene permisos para acceder a este documento";
+        exit;
+    }
 }
 
 // Determinar el tipo de contenido basado en la extensión del archivo

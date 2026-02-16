@@ -8,7 +8,8 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 // Verificar token CSRF
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+require_once __DIR__ . '/../administrador/csrf_protection.php';
+if (!validar_token_csrf($_POST['csrf_token'] ?? '')) {
     http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'Token CSRF inválido']);
     exit;

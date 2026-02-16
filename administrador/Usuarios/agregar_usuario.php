@@ -10,12 +10,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
     $apellido = trim($_POST['apellido'] ?? '');
     $email = trim($_POST['email'] ?? '');
-    $contrasena = trim($_POST['contrasena'] ?? '');
+    $contrasena = $_POST['contrasena'] ?? '';
     $cargo = trim($_POST['cargo'] ?? '');
     $area = trim($_POST['area'] ?? '');
-    $rol = trim($_POST['rol'] ?? 'usuario');
+    
+    // Validar que el rol sea un valor permitido
+    $roles_validos = ['usuario', 'admin'];
+    $rol = in_array($_POST['rol'] ?? '', $roles_validos) ? $_POST['rol'] : 'usuario';
 
     if ($nombre && $apellido && $email && $contrasena) {
+        // Validar complejidad de contraseña
+        if (strlen($contrasena) < 8 || 
+            !preg_match('/[A-Z]/', $contrasena) || 
+            !preg_match('/[a-z]/', $contrasena) || 
+            !preg_match('/[0-9]/', $contrasena) || 
+            !preg_match('/[^a-zA-Z0-9]/', $contrasena)) {
+            $_SESSION['titulo'] = 'Error';
+            $_SESSION['mensaje'] = 'La contraseña debe tener mínimo 8 caracteres, con mayúscula, minúscula, número y carácter especial.';
+            $_SESSION['tipo_alerta'] = 'error';
+            header('Location: agregar_usuario.php');
+            exit;
+        }
         try {
             // Verificar si el email ya existe
             $stmtCheck = $conexion->prepare("SELECT id FROM usuarios WHERE email = :email");
@@ -46,8 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
         } catch (PDOException $e) {
+            error_log('Error al crear usuario: ' . $e->getMessage());
             $_SESSION['titulo'] = 'Error';
-            $_SESSION['mensaje'] = 'Error al crear el usuario: ' . $e->getMessage();
+            $_SESSION['mensaje'] = 'Error interno al crear el usuario. Contacte al administrador.';
             $_SESSION['tipo_alerta'] = 'error';
         }
     } else {

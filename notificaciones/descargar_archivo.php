@@ -102,7 +102,7 @@ $archivo_id = intval($_GET['id']);
 // ====================================================================
 function enviarArchivo($ruta_real, $nombre_descarga, $tipo_mime) {
     // Limpiar caracteres peligrosos del nombre
-    $caracteres_prohibidos = array('/', '\\', ':', '*', '?', '"', '<', '>', '|', "\0");
+    $caracteres_prohibidos = array('/', '\\', ':', '*', '?', '"', '<', '>', '|', "\0", "\r", "\n");
     $nombre_descarga = str_replace($caracteres_prohibidos, '_', $nombre_descarga);
     
     // Limitar longitud del nombre

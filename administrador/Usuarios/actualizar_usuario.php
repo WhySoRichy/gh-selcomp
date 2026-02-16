@@ -6,20 +6,30 @@ require_once(__DIR__ . '/../../conexion/conexion.php');
 
 verificar_csrf();
 
-$id = $_POST['id'];
-$nombre = $_POST['nombre'];
-$apellido = $_POST['apellido'];
-$email = $_POST['email'];
-$cargo = $_POST['cargo'];
-$area = $_POST['area'];
-$rol = $_POST['rol'];
+$id = (int)($_POST['id'] ?? 0);
+$nombre = trim($_POST['nombre'] ?? '');
+$apellido = trim($_POST['apellido'] ?? '');
+$email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL);
+$cargo = trim($_POST['cargo'] ?? '');
+$area = trim($_POST['area'] ?? '');
+
+// Validar que el rol sea un valor permitido
+$roles_validos = ['usuario', 'admin'];
+$rol = in_array($_POST['rol'] ?? '', $roles_validos) ? $_POST['rol'] : 'usuario';
 // Nuevos campos opcionales
-$telefono = $_POST['telefono'] ?? null;
-$direccion = $_POST['direccion'] ?? null;
+$telefono = trim($_POST['telefono'] ?? '') ?: null;
+$direccion = trim($_POST['direccion'] ?? '') ?: null;
 $fecha_nacimiento = $_POST['fecha_nacimiento'] ?? null;
-$estado_civil = $_POST['estado_civil'] ?? null;
-$emergencia_contacto = $_POST['emergencia_contacto'] ?? null;
-$emergencia_telefono = $_POST['emergencia_telefono'] ?? null;
+$estado_civil = trim($_POST['estado_civil'] ?? '') ?: null;
+$emergencia_contacto = trim($_POST['emergencia_contacto'] ?? '') ?: null;
+$emergencia_telefono = trim($_POST['emergencia_telefono'] ?? '') ?: null;
+
+// Validaciones básicas
+if (!$id || !$nombre || !$apellido || !$email) {
+    $_SESSION['error_usuario'] = 'Todos los campos obligatorios deben ser válidos.';
+    header('Location: ver_usuarios.php');
+    exit;
+}
 
 try {
     // Verificar si el email ya existe para otro usuario
@@ -72,8 +82,8 @@ try {
     exit;
     
 } catch (PDOException $e) {
-    // Manejar error de base de datos
-    $_SESSION['error_usuario'] = "Error al actualizar el usuario: " . $e->getMessage();
+    error_log("Error al actualizar usuario ID {$id}: " . $e->getMessage());
+    $_SESSION['error_usuario'] = 'Error interno al actualizar el usuario. Contacte al administrador.';
     header("Location: ver_usuarios.php");
     exit;
 }

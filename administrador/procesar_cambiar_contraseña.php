@@ -16,9 +16,9 @@ if (strpos($pagina_origen, 'cambiar_contrase') !== false) {
 verificar_csrf();
 
 $usuario_id = $_SESSION['usuario_id'];
-$actual_contrasena = trim($_POST['actual_contrasena'] ?? '');
-$nueva_contrasena = trim($_POST['nueva_contrasena'] ?? '');
-$confirmar_contrasena = trim($_POST['confirmar_contrasena'] ?? '');
+$actual_contrasena = $_POST['actual_contrasena'] ?? '';
+$nueva_contrasena = $_POST['nueva_contrasena'] ?? '';
+$confirmar_contrasena = $_POST['confirmar_contrasena'] ?? '';
 
 // Validaciones
 if (empty($actual_contrasena) || empty($nueva_contrasena) || empty($confirmar_contrasena)) {

@@ -8,15 +8,9 @@ if (isset($_SESSION['usuario_id'])) {
         $usuario_id = $_SESSION['usuario_id'];
         $ip = $_SERVER['REMOTE_ADDR'];
         
-        // Si es IPv6 local, intentar obtener la IP real
+        // Si es IPv6 local, usar IPv4 localhost (no confiar en headers spoofables)
         if ($ip === '::1') {
-            if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-            } elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-                $ip = $_SERVER['HTTP_CLIENT_IP'];
-            } else {
-                $ip = '127.0.0.1'; // Si no se puede determinar, usar IPv4 localhost
-            }
+            $ip = '127.0.0.1';
         }
         
         $dispositivo = $_SERVER['HTTP_USER_AGENT'] ?? 'Desconocido';

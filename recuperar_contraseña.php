@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'conexion/conexion.php';
+require_once 'administrador/csrf_protection.php';
 
 // Headers de seguridad
 header("X-Frame-Options: DENY");
@@ -10,6 +11,9 @@ header("X-XSS-Protection: 1; mode=block");
 $alerta = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verificar CSRF
+    verificar_csrf();
+
     $token = $_POST['token'] ?? '';
     $pass_nueva = $_POST['pass_nueva'] ?? '';
     $confirmar_pass = $_POST['confirmar_pass'] ?? '';
@@ -92,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Portal Gestión Humana</h1>
         <h2>Restablecer contraseña</h2>
         <form action="recuperar_contraseña.php" method="post" autocomplete="off">
+            <?php echo campo_csrf_token(); ?>
             <input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET['token'] ?? $_POST['token'] ?? ''); ?>">
             <input type="password" name="pass_nueva" placeholder="Nueva contraseña" required>
             <input type="password" name="confirmar_pass" placeholder="Confirmar contraseña" required>
@@ -102,12 +107,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
     <?php if ($alerta): ?>
         Swal.fire({
-            title: "<?php echo $alerta['title']; ?>",
-            text: "<?php echo $alerta['text']; ?>",
-            icon: "<?php echo $alerta['icon']; ?>"
+            title: <?php echo json_encode($alerta['title']); ?>,
+            text: <?php echo json_encode($alerta['text']); ?>,
+            icon: <?php echo json_encode($alerta['icon']); ?>
         }).then(() => {
             <?php if (isset($alerta['redirect'])): ?>
-            window.location.href = "<?php echo $alerta['redirect']; ?>";
+            window.location.href = <?php echo json_encode($alerta['redirect']); ?>;
             <?php endif; ?>
         });
     <?php endif; ?>

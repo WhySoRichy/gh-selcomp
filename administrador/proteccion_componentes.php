@@ -37,8 +37,11 @@ if (in_array($archivo_actual, $archivos_protegidos)) {
 $referer = $_SERVER['HTTP_REFERER'] ?? '';
 $host = $_SERVER['HTTP_HOST'] ?? '';
 
-if (!empty($referer) && !strpos($referer, $host)) {
-    header('HTTP/1.0 403 Forbidden');
-    exit('Acceso no autorizado desde origen externo');
+if (!empty($referer)) {
+    $referer_host = parse_url($referer, PHP_URL_HOST);
+    if ($referer_host !== $host) {
+        header('HTTP/1.0 403 Forbidden');
+        exit('Acceso no autorizado desde origen externo');
+    }
 }
 ?>

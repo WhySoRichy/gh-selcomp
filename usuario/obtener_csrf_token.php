@@ -16,18 +16,15 @@ if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) ||
 }
 
 // Verificar referrer para mayor seguridad
-$allowed_domains = ['localhost', '127.0.0.1'];
+$allowed_hosts = [
+    $_SERVER['HTTP_HOST'] ?? '',
+    'localhost',
+    '127.0.0.1'
+];
 $referrer = $_SERVER['HTTP_REFERER'] ?? '';
-$valid_referrer = false;
+$referer_host = parse_url($referrer, PHP_URL_HOST);
 
-foreach ($allowed_domains as $domain) {
-    if (strpos($referrer, $domain) !== false) {
-        $valid_referrer = true;
-        break;
-    }
-}
-
-if (!$valid_referrer && !empty($referrer)) {
+if (!empty($referrer) && !in_array($referer_host, $allowed_hosts)) {
     http_response_code(403);
     exit('Referrer no válido');
 }

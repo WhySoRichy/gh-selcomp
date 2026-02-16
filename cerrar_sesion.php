@@ -11,9 +11,10 @@ if (isset($_SESSION['usuario_id'])) {
         // Si es IPv6 local, intentar obtener la IP real
         if ($ip === '::1') {
             if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                $forwarded = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0];
+                $ip = filter_var(trim($forwarded), FILTER_VALIDATE_IP) ?: '127.0.0.1';
             } elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-                $ip = $_SERVER['HTTP_CLIENT_IP'];
+                $ip = filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP) ?: '127.0.0.1';
             } else {
                 $ip = '127.0.0.1';
             }

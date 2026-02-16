@@ -17,6 +17,7 @@
 # -----------------------------------------------------
 vendor/
 node_modules/
+composer.phar
 # NOTA: composer.lock incluido para reproducibilidad exacta
 
 # Python

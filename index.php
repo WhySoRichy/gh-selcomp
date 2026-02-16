@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'administrador/csrf_protection.php';
 
 // Headers de seguridad
 header("X-Frame-Options: DENY");
@@ -35,6 +36,7 @@ if (isset($_SESSION['usuario_id'])) {
         <h1>Portal Gestión Humana</h1>
         <h2>Iniciar Sesión</h2>
         <form action="procesar_login.php" method="post" autocomplete="off">
+            <?php echo campo_csrf_token(); ?>
             <label for="email" class="sr-only">Correo electrónico</label>
             <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
             <label for="password" class="sr-only">Contraseña</label>
