@@ -284,9 +284,9 @@ function redimensionarAvatar($origen, $destino, $ancho_max, $alto_max) {
                             <input type="file" 
                                    id="avatar-input" 
                                    name="avatar" 
-                                   accept="image/jpeg,image/jpg,image/png" 
+                                   accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" 
                                    class="file-input">
-                            <span class="file-info">JPG, JPEG, PNG - Máx. 2MB</span>
+                            <span class="file-info">JPG, JPEG, PNG, GIF, WebP - Máx. 5MB</span>
                         </div>
                         <button type="submit" name="cambiar_avatar" class="btn-primary-modern">
                             <i class="fas fa-save"></i> Actualizar Avatar
@@ -442,23 +442,23 @@ document.addEventListener('DOMContentLoaded', function() {
             const file = e.target.files[0];
             if (file) {
                 // Validar tipo de archivo
-                const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
                 if (!validTypes.includes(file.type)) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Archivo no válido',
-                        text: 'Solo se permiten archivos JPG, JPEG y PNG'
+                        text: 'Solo se permiten archivos JPG, JPEG, PNG, GIF y WebP'
                     });
                     e.target.value = '';
                     return;
                 }
                 
                 // Validar tamaño
-                if (file.size > 2 * 1024 * 1024) {
+                if (file.size > 5 * 1024 * 1024) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Archivo muy grande',
-                        text: 'El archivo debe ser menor a 2MB'
+                        text: 'El archivo debe ser menor a 5MB'
                     });
                     e.target.value = '';
                     return;
