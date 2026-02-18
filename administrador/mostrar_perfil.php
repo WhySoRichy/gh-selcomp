@@ -138,8 +138,13 @@ if (isset($_POST['cambiar_avatar']) && isset($_FILES['avatar'])) {
                 $_SESSION['tipo_alerta'] = 'error';
             }
         } else {
+            // Mensaje informativo si el MIME real no coincide con la extensión
+            $detalle = '';
+            if (!in_array($mime_real, $mimes_permitidos) && in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                $detalle = " El archivo parece ser de tipo {$mime_real}, no un .{$ext} real.";
+            }
             $_SESSION['titulo'] = 'Archivo no válido';
-            $_SESSION['mensaje'] = 'Formato no permitido o archivo demasiado grande (máx 5MB). Use JPG, JPEG, PNG, GIF o WebP.';
+            $_SESSION['mensaje'] = "Formato no permitido o archivo muy grande (máx 5MB). Use JPG, JPEG, PNG, GIF o WebP.{$detalle}";
             $_SESSION['tipo_alerta'] = 'error';
         }
     } else {
@@ -441,13 +446,18 @@ document.addEventListener('DOMContentLoaded', function() {
         avatarInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                // Validar tipo de archivo
+                // Validar tipo de archivo (MIME + extensión como fallback)
                 const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-                if (!validTypes.includes(file.type)) {
+                const validExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                const fileExt = file.name.split('.').pop().toLowerCase();
+                const mimeOk = validTypes.includes(file.type);
+                const extOk = validExts.includes(fileExt);
+                
+                if (!mimeOk && !extOk) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Archivo no válido',
-                        text: 'Solo se permiten archivos JPG, JPEG, PNG, GIF y WebP'
+                        text: 'Solo se permiten archivos JPG, JPEG, PNG, GIF y WebP (detectado: ' + (file.type || 'desconocido') + ')'
                     });
                     e.target.value = '';
                     return;
